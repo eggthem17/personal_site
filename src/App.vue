@@ -6,7 +6,7 @@
       dark
     >
     <v-app-bar-nav-icon app @click="drawer = !drawer"/>
-    <v-toolbar-title>걔랑계란 Chillog</v-toolbar-title>
+    <site-title :title="title"></site-title>
     <v-spacer/>
     <v-btn icon to="/about">
         <v-icon>mdi-magnify</v-icon>
@@ -16,15 +16,15 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">
-            Application
+            메뉴
           </v-list-item-title>
           <v-list-item-subtitle>
-            subtext
+            Menu
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-
       <v-divider></v-divider>
+      <site-menu></site-menu>
     </v-navigation-drawer>
     <v-content>
       <router-view/>
@@ -33,11 +33,16 @@
 </template>
 
 <script>
+import SiteTitle from '@/views/site/title'
+import SiteMenu from '@/views/site/menu'
+
 export default {
+  components: { SiteTitle, SiteMenu },
   name: 'App',
   data () {
     return {
-      drawer: false
+      drawer: false,
+      title: "걔랑계란's Chillog"
     }
   }
 }
