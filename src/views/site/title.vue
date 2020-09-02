@@ -35,8 +35,6 @@ export default {
       try {
         this.$firebase.database().ref().child('site').update({ title: this.text })
         this.dialog = false
-      } catch (e) {
-        console.log(e.message)
       } finally {
         this.dialoge = false
       }

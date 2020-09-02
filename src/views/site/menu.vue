@@ -61,7 +61,6 @@ export default {
         },
         {
           title: 'about',
-          active: true,
           icon: 'mdi-account-badge',
           subItems: [
             {
