@@ -30,12 +30,11 @@
               {{item.title}}
               <span v-if="$store.state.editable">
                 <v-btn icon @click="openDialogItem(i)"><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-btn icon @click="moveItem(items, i, -1)" v-if = "i > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
+                <v-btn icon @click="moveItem(items, i, 1)" v-if = "i < items.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
               </span>
             </v-list-item-title>
           </v-list-item-content>
-          <v-list-item-action>
-            <v-btn @click="openDialogItem(i)" icon><v-icon>mdi-pencil</v-icon></v-btn>
-          </v-list-item-action>
         </template>
 
         <v-list-item
@@ -48,6 +47,8 @@
               {{subItem.title}}
               <span v-if="$store.state.editable">
                 <v-btn icon @click="openDialogSubItem(i,j)"><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-btn icon @click="moveItem(item.subItems, j, -1)" v-if = "j > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
+                <v-btn icon @click="moveItem(item.subItems, j, 1)" v-if = "j < item.subItems.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
               </span>
             </v-list-item-title>
           </v-list-item-content>
@@ -188,6 +189,11 @@ export default {
         this.items[this.selectedItemIndex].subItems[this.selectedSubItemIndex].title = this.formSubItem.titlethis
         this.items[this.selectedItemIndex].subItems[this.selectedSubItemIndex].to = this.formSubItem.to
       }
+      this.save()
+    },
+    moveItem (items, i, arrow) {
+      const item = items.splice(i, 1)[0]
+      items.splice(i + arrow, 0, item)
       this.save()
     }
   }

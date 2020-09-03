@@ -4,6 +4,7 @@
     <v-app-bar-nav-icon app @click="drawer = !drawer"/>
     <site-title :title="site.title"></site-title>
     <v-spacer/>
+    <site-sign></site-sign>
     </v-app-bar>
     <v-navigation-drawer app v-model="drawer" width="400">
       <site-menu :items="site.menu"></site-menu>
@@ -42,8 +43,8 @@ export default {
           },
           {
             title: 'about',
-            active: true,
-            icon: 'mdi-account-badge',
+            active: false,
+            icon: 'mdi-account',
             subItems: [
               {
                 title: 'xxx',
