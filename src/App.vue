@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="#424242" dark>
-    <v-app-bar-nav-icon app @click="drawer = !drawer"/>
+    <v-app-bar-nav-icon app color="orange" @click="drawer = !drawer"/>
     <site-title :title="site.title"></site-title>
     <v-spacer/>
     <site-sign></site-sign>
@@ -18,9 +18,10 @@
 <script>
 import SiteTitle from '@/views/site/title'
 import SiteMenu from '@/views/site/menu'
+import SiteSign from '@/views/site/sign'
 
 export default {
-  components: { SiteTitle, SiteMenu },
+  components: { SiteTitle, SiteMenu, SiteSign },
   name: 'App',
   data () {
     return {
@@ -43,8 +44,7 @@ export default {
           },
           {
             title: 'about',
-            active: false,
-            icon: 'mdi-account',
+            icon: 'mdi-home',
             subItems: [
               {
                 title: 'xxx',
