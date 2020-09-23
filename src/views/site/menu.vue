@@ -79,7 +79,8 @@
         <v-card-title>
           수정하기
           <v-spacer/>
-          <v-btn icon @click="saveItem" ><v-icon>mdi-content-save</v-icon></v-btn>
+          <v-btn @click="saveItem" icon color="success"><v-icon>mdi-content-save</v-icon></v-btn>
+          <v-btn @click="dialogItem=false"><v-icon>mdi-close</v-icon></v-btn>
         </v-card-title>
         <v-card-text>
           <v-row>
@@ -88,11 +89,11 @@
           </v-col>
           <v-col cols="10">
             <v-text-field
-            v-model="formItem.icon"
-            label="mdi icon"
-            outlined
-            clearable
-            required
+              v-model="formItem.icon"
+              label="mdi icon"
+              outlined
+              clearable
+              required
             ></v-text-field>
           </v-col>
           </v-row>
@@ -143,7 +144,7 @@ export default {
         this.loading = true
         await this.$firebase.database().ref().child('site').child('menu').set(this.items)
       } finally {
-        this.dialogeItem = false
+        this.dialogItem = false
         this.dialogSubItem = false
         this.loading = false
       }
@@ -183,10 +184,10 @@ export default {
     },
     async saveSubItem () {
       if (this.selectedSubItemIndex < 0) {
-        if (this.items[this.selectedSubItemIndex].subItems) this.items[this.selectedItemIndex].subItems = []
+        if (!this.items[this.selectedItemIndex].subItems) this.items[this.selectedItemIndex].subItems = []
         this.items[this.selectedItemIndex].subItems.push({ title: this.formSubItem.title, to: this.formSubItem.to })
       } else {
-        this.items[this.selectedItemIndex].subItems[this.selectedSubItemIndex].title = this.formSubItem.titlethis
+        this.items[this.selectedItemIndex].subItems[this.selectedSubItemIndex].title = this.formSubItem.title
         this.items[this.selectedItemIndex].subItems[this.selectedSubItemIndex].to = this.formSubItem.to
       }
       this.save()
