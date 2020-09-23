@@ -32,6 +32,7 @@
                 <v-btn icon @click="openDialogItem(i)"><v-icon>mdi-pencil</v-icon></v-btn>
                 <v-btn icon @click="moveItem(items, i, -1)" v-if = "i > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
                 <v-btn icon @click="moveItem(items, i, 1)" v-if = "i < items.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
+                <v-btn icon @click="removeItem(items,i)"><v-icon>mdi-delete</v-icon></v-btn>
               </span>
             </v-list-item-title>
           </v-list-item-content>
@@ -49,6 +50,7 @@
                 <v-btn icon @click="openDialogSubItem(i,j)"><v-icon>mdi-pencil</v-icon></v-btn>
                 <v-btn icon @click="moveItem(item.subItems, j, -1)" v-if = "j > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
                 <v-btn icon @click="moveItem(item.subItems, j, 1)" v-if = "j < item.subItems.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
+                <v-btn icon @click="removeItem(item.subItems,j)"><v-icon>mdi-delete</v-icon></v-btn>
               </span>
             </v-list-item-title>
           </v-list-item-content>
@@ -195,6 +197,10 @@ export default {
     moveItem (items, i, arrow) {
       const item = items.splice(i, 1)[0]
       items.splice(i + arrow, 0, item)
+      this.save()
+    },
+    removeItem (items, i) {
+      items.splice(i, 1)
       this.save()
     }
   }
