@@ -35,6 +35,11 @@ const routes = [
     path: '/storage',
     name: 'storage',
     component: () => import(/* webpackChunkName: "xxx" */ '../views/storage.vue')
+  },
+  {
+    path: '/editor',
+    name: 'editor',
+    component: () => import(/* webpackChunkName: "xxx" */ '../views/editor.vue')
   }
 ]
 
