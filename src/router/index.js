@@ -40,6 +40,16 @@ const routes = [
     path: '/editor',
     name: 'editor',
     component: () => import(/* webpackChunkName: "xxx" */ '../views/editor.vue')
+  },
+  {
+    path: '/:collection/:document',
+    name: 'collection-document',
+    component: () => import('../views/renderer')
+  },
+  {
+    path: '*',
+    name: 'error',
+    component: () => import('../views/error')
   }
 ]
 
