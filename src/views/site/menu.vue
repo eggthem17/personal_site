@@ -16,6 +16,7 @@
         </v-list-item-action>
       </v-list-item>
       <v-divider></v-divider>
+
     <v-list nav>
       <v-list-group
         v-for="(item, i) in items"
@@ -153,7 +154,6 @@ export default {
     },
     openDialogItem (index) {
       this.selectedItemIndex = index
-      this.dialogItem = true
       if (index < 0) {
         this.formItem.icon = 'mdi-crosshairs-question'
         this.formItem.title = ''
@@ -195,8 +195,8 @@ export default {
       this.save()
     },
     moveItem (items, i, arrow) {
-      const item = items.splice(i, 1)[0]
-      items.splice(i + arrow, 0, item)
+      // const item = items.splice(i, 1)[0]
+      items.splice(i + arrow, 0, ...items.splice(i, 1))
       this.save()
     },
     removeItem (items, i) {

@@ -1,31 +1,29 @@
 <template>
-<v-progress-circular indeterminate v-if="loading"></v-progress-circular>
-    <v-menu offset-y v-else-if="!$store.state.fireUser">
-        <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on"><v-icon>mdi-account</v-icon></v-btn>
-
-        </template>
-        <v-card>
-            <v-card-title>SignIn</v-card-title>
-            <v-divider/>
-            <v-card-actions>
-                <v-btn color="orange" dark @click="signInWithGoogle" block><v-icon left>mdi-google</v-icon></v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-menu>
-    <v-menu offset-y v-else>
-        <template v-slot:activator="{ on }">
-            <v-btn icon color="orange" v-on="on"><v-icon>mdi-account</v-icon></v-btn>
-
-        </template>
-        <v-card>
-            <v-card-title>Account Information</v-card-title>
-            <v-divider/>
-            <v-card-actions>
-                <v-btn dark @click="signOut" block>SignOut</v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-menu>
+  <v-progress-circular indeterminate v-if="loading"></v-progress-circular>
+  <v-menu offset-y v-else-if="!$store.state.fireUser">
+    <template v-slot:activator="{ on }">
+      <v-btn icon v-on="on"><v-icon>mdi-account</v-icon></v-btn>
+    </template>
+    <v-card>
+      <v-card-title>SignIn</v-card-title>
+      <v-divider/>
+      <v-card-actions>
+        <v-btn color="orange" dark @click="signInWithGoogle" block><v-icon left>mdi-google</v-icon></v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-menu>
+  <v-menu offset-y v-else>
+    <template v-slot:activator="{ on }">
+      <v-btn icon color="orange" v-on="on"><v-icon>mdi-account</v-icon></v-btn>
+    </template>
+    <v-card>
+      <v-card-title>Account Information</v-card-title>
+      <v-divider/>
+      <v-card-actions>
+        <v-btn dark @click="signOut" block>SignOut</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-menu>
 </template>
 <script>
 export default {

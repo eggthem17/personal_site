@@ -1,15 +1,15 @@
 <template>
-    <v-sheet>
-        <v-textarea v-model="text">
+  <v-sheet>
+    <v-textarea v-model="text">
 
-        </v-textarea>
-        sss
-        <v-btn @click="read">read</v-btn>
-        <v-btn @click="write">write</v-btn>
-    </v-sheet>
+    </v-textarea>
+    <v-btn @click="read">read</v-btn>
+    <v-btn @click="write">write</v-btn>
+  </v-sheet>
 </template>
 <script>
 import axios from 'axios'
+
 export default {
   data () {
     return {
