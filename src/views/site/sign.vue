@@ -14,7 +14,11 @@
   </v-menu>
   <v-menu offset-y v-else>
     <template v-slot:activator="{ on }">
-      <v-btn icon color="orange" v-on="on"><v-icon>mdi-account</v-icon></v-btn>
+      <v-btn v-on="on">
+        <v-avatar size="32">
+          <v-img :src="$store.state.fireUser.photoURL"></v-img>
+        </v-avatar>
+      </v-btn>
     </template>
     <v-card>
       <v-card-title>Account Information</v-card-title>
