@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-data-table
     :headers="headers"
     :items="items"
@@ -14,22 +15,34 @@
     <template v-slot:item.createdAt="{item}">
       <display-time :time="item.createdAt"></display-time>
     </template>
+    <template v-slot:item.title="{item}">
+      <a @click="openDialog(item)">{{item.title}}</a>
+    </template>
+    <template v-slot:item.user.displayName="{item}">
+      <display-user :user="item.user"></display-user>
+    </template>
 
   </v-data-table>
+  <v-dialog v-if="selectedItem" v-model="dialog">
+    <display-content :item="selectedItem" @close="dialog=false"></display-content>
+  </v-dialog>
+  </div>
 </template>
 <script>
 import { head, last } from 'lodash'
-import DisplayTime from '@/components/display-time.vue'
+import DisplayTime from '@/components/display-time'
+import DisplayUser from '@/components/display-user'
+import DisplayContent from '@/components/display-content'
 
 export default {
-  components: { DisplayTime },
+  components: { DisplayTime, DisplayUser, DisplayContent },
   props: ['info', 'document'],
   data () {
     return {
       headers: [
         { value: 'createdAt', text: '작성일' },
         { value: 'title', text: '제목' },
-        { value: 'user', text: '작성자' },
+        { value: 'user.displayName', text: '작성자' },
         { value: 'readCount', text: '조회수' },
         { value: 'commentCount', text: '댓글수' }
       ],
@@ -39,7 +52,10 @@ export default {
         sortBy: ['createdAt'],
         sortDesc: [true]
       },
-      docs: []
+      docs: [],
+      dialog: false,
+      selectedItem: null
+
     }
   },
   watch: {
@@ -61,6 +77,9 @@ export default {
         this.subscribe(arrow)
       },
       deep: true
+    },
+    dialog (n) {
+      if (!n) this.selectedItem = null
     }
   },
   created () {
@@ -100,6 +119,10 @@ export default {
           return item
         })
       })
+    },
+    openDialog (item) {
+      this.selectedItem = item
+      this.dialog = true
     }
 
   }
