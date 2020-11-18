@@ -44,6 +44,7 @@ export default {
           },
           {
             title: 'about',
+            active: true,
             icon: 'mdi-home',
             subItems: [
               {
