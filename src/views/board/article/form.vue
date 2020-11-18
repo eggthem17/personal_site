@@ -46,6 +46,9 @@ export default {
     },
     user () {
       return this.$store.state.user
+    },
+    fireUser () {
+      return this.$store.state.fireUser
     }
   },
   watch: {
@@ -71,6 +74,7 @@ export default {
       this.form.content = data
     },
     async save () {
+      if (!this.fireUser) throw Error('로그인이 필요합니다.')
       this.loading = true
       try {
         const createdAt = new Date()
@@ -84,7 +88,7 @@ export default {
           url: url
         }
 
-        const batch = await this.$firebase.firestore().batch()
+        // const batch = await this.$firebase.firestore().batch()
 
         if (!this.articleId) {
           doc.createdAt = createdAt
@@ -96,12 +100,14 @@ export default {
             photoURL: this.user.photoURL,
             displayName: this.user.displayName
           }
-          batch.set(this.ref.collection('articles').doc(id), doc)
-          batch.update(this.ref, { count: this.$firebase.firestore.FieldValue.increment(1) })
+          // batch.set(this.ref.collection('articles').doc(id), doc)
+          // batch.update(this.ref, { count: this.$firebase.firestore.FieldValue.increment(1) })
+          this.ref.collection('articles').doc(id).set(doc)
         } else {
-          batch.update(this.ref.collection('articles').doc(this.articleId), doc)
+          // batch.update(this.ref.collection('articles').doc(this.articleId), doc)
+          this.ref.collection('articles').doc(this.articleId).update(doc)
         }
-        await batch.commit()
+        // await batch.commit()
       } finally {
         this.loading = false
         this.$router.push('/board/' + this.document)
