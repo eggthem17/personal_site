@@ -82,7 +82,7 @@ exports.onDeleteBoardArticle = functions.region(region).firestore.document('boar
   await admin.storage().bucket().file(ps.join('/')).delete().catch(e => console.error('storage remove err: ' + e.message))
 })
 
-exports.onCreateBoardComment = functions.region(region).firestore.document('boards/{bid}/articles/{aid}/comments/{cid}').onDelete((snap, context) => {
+exports.onCreateBoardComment = functions.region(region).firestore.document('boards/{bid}/articles/{aid}/comments/{cid}').onCreate((snap, context) => {
   return db.collection('boards').doc(context.params.bid).collection('articles').doc(context.params.aid).update({ commentCount: admin.firestore.FieldValue.increment(1) })
 })
 
