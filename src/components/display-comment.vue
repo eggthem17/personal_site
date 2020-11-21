@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-card-title>
-      <v-textarea v-model="comment" rows="3" outlined label="댓글 작성" append-icon="mdi-send" @click:append="save" hide-details></v-textarea>
+      <v-textarea v-model="comment" outlined label="댓글 작성" append-icon="mdi-send" @click:append="save" hide-details auto-grow rows="1" clearable></v-textarea>
     </v-card-title>
     <template v-for="(item,i) in items">
       <v-list-item :key="item.id">
@@ -15,8 +15,8 @@
           </v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn icon @click="like(item)">
-            <v-icon :color="liked(item) ? 'success' : ''">mdi-thumb-up</v-icon>
+          <v-btn @click="like(item)" text class="mr-0">
+            <v-icon left :color="liked(item) ? 'success' : ''">mdi-thumb-up</v-icon>
             <span>{{item.likeCount}}</span>
             </v-btn>
         </v-list-item-action>
@@ -26,7 +26,7 @@
             </v-btn>
         </v-list-item-action>
       </v-list-item>
-      <v-divider :key="i"></v-divider>
+      <v-divider :key="i" v-if="i < items.length - 1"></v-divider>
     </template>
     <v-list-item  v-if="lastDoc && items.length < article.commentCount">
       <v-btn @click="more" v-intersect="onIntersect" text color="primary" block>더보기</v-btn>

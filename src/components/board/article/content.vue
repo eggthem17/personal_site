@@ -1,15 +1,20 @@
 <template>
-  <v-container fluid>
-    <v-card v-if="article">
-      <v-toolbar color="info" dark dense flat>
+  <v-container fluid :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
+    <v-card v-if="article" outlined>
+      <v-toolbar color="transparent" dense flat>
         <v-toolbar-title>
+          <v-chip color="info" label class="mr4">임시</v-chip>
           {{article.title}}
         </v-toolbar-title>
         <v-spacer/>
-        <v-btn @click="articleWrite" icon><v-icon>mdi-pencil</v-icon></v-btn>
-        <v-btn @click="remove" icon><v-icon>mdi-delete</v-icon></v-btn>
+        <template v-if="(fireUser && fireUser.uid === article.uid) || (user && user.level === 0)">
+          <v-btn @click="articleWrite" icon><v-icon>mdi-pencil</v-icon></v-btn>
+          <v-btn @click="remove" icon><v-icon>mdi-delete</v-icon></v-btn>
+        </template>
+
         <v-btn @click="back" icon><v-icon>mdi-close</v-icon></v-btn>
       </v-toolbar>
+      <v-divider/>
       <v-card-text >
         <viewer v-if="content" :initialValue="content"></viewer>
         <v-container v-else>
@@ -32,8 +37,23 @@
       </v-card-actions>
       <v-card-actions>
         <v-spacer/>
-        <v-btn icon @click="like">
-          <v-icon :color="liked ? 'success' : ''">mdi-thumb-up</v-icon>
+        <span class="font-italic caption">
+          작성자:
+        </span>
+        <display-user :user="article.user"></display-user>
+      </v-card-actions>
+      <v-card-actions>
+        <v-spacer/>
+        <v-sheet class="mr-4">
+          <v-icon left>mdi-eye</v-icon>
+          <span class="body-2">{{article.readCount}}</span>
+        </v-sheet>
+        <v-sheet class="mr-0">
+          <v-icon left>mdi-comment</v-icon>
+          <span class="body-2">{{article.commentCount}}</span>
+        </v-sheet>
+        <v-btn text @click="like">
+          <v-icon left :color="liked ? 'success' : ''">mdi-thumb-up</v-icon>
           <sapn>{{article.likeCount}}</sapn>
         </v-btn>
       </v-card-actions>
@@ -70,9 +90,10 @@
 import axios from 'axios'
 import DisplayTime from '@/components/display-time'
 import DisplayComment from '@/components/display-comment'
+import DisplayUser from '@/components/display-user'
 
 export default {
-  components: { DisplayTime, DisplayComment },
+  components: { DisplayTime, DisplayComment, DisplayUser },
   props: ['boardId', 'articleId'],
   data () {
     return {
@@ -84,6 +105,9 @@ export default {
     }
   },
   computed: {
+    user () {
+      return this.$store.state.user
+    },
     fireUser () {
       return this.$store.state.fireUser
     },
