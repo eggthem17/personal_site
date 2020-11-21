@@ -20,6 +20,11 @@
             <span>{{item.likeCount}}</span>
             </v-btn>
         </v-list-item-action>
+        <v-list-item-action>
+          <v-btn icon @click="remove(item)">
+            <v-icon>mdi-delete</v-icon>
+            </v-btn>
+        </v-list-item-action>
       </v-list-item>
       <v-divider :key="i"></v-divider>
     </template>
@@ -140,6 +145,11 @@ export default {
       const item = doc.data()
       comment.likeCount = item.likeCount
       comment.likeUids = item.likeUids
+    },
+    async remove (comment) {
+      await this.docRef.collection('comments').doc(comment.id).delete()
+      const i = this.items.findIndex(el => el.id === comment.id)
+      this.items.splice(i, 1)
     }
   }
 }
