@@ -103,13 +103,12 @@ export default {
           await this.ref.collection('articles').doc(id).set(doc)
         } else {
           const fn = this.articleId + '-' + this.article.uid + '.md'
-          await this.$firebase.storage().ref().child('boards').child(this.boardId).cild(fn).putString(md)
+          await this.$firebase.storage().ref().child('boards').child(this.boardId).child(fn).putString(md)
           await this.ref.collection('articles').doc(this.articleId).update(doc)
         }
         this.$router.push('/board/' + this.boardId)
       } finally {
         this.loading = false
-        this.$router.push('/board/' + this.boardId)
       }
     }
   }

@@ -38,6 +38,22 @@
         </v-btn>
       </v-card-actions>
       <v-divider/>
+      <v-card-actions class="py-0">
+        <v-row no-gutters>
+          <v-col cols='4'>
+            <v-btn text block="primary" @click="go(-1)"><v-icon left>mdi-menu-left</v-icon>이전 글</v-btn>
+          </v-col>
+          <v-col cols='4' class="d-flex">
+            <v-divider vertical/>
+            <v-btn text block="primary" @click="back"><v-icon left>mdi-format-list-bulleted</v-icon>목록</v-btn>
+            <v-divider vertical/>
+          </v-col>
+          <v-col cols='4'>
+            <v-btn text block="primary" @click="go(1)">다음 글<v-icon>mdi-menu-right</v-icon></v-btn>
+          </v-col>
+        </v-row>
+      </v-card-actions>
+      <v-divider/>
       <display-comment :article="article" :docRef="ref"></display-comment>
     </v-card>
     <v-card v-else>
@@ -61,9 +77,10 @@ export default {
   data () {
     return {
       content: '',
-      ref: this.$firebase.firestore().collection('boards').doc(this.boardId).collection('articles').doc(this.articleId),
+      ref: null,
       unsubscribe: null,
-      article: null
+      article: null,
+      doc: null
     }
   },
   computed: {
@@ -75,26 +92,30 @@ export default {
       return this.article.likeUids.includes(this.fireUser.uid)
     }
   },
-  async created () {
-    await this.readCountUpdate()
+  watch: {
+    articleId () {
+      this.subscribe()
+    }
+  },
+  created () {
     this.subscribe()
   },
   destroyed () {
     if (this.unsubscribe) this.unsubscribe()
   },
   methods: {
-    async readCountUpdate () {
-      await this.ref.update({
-        readCount: this.$firebase.firestore.FieldValue.increment(1)
-      })
-    },
     subscribe () {
       if (this.unsubscribe) this.unsubscribe()
+      this.ref = this.$firebase.firestore().collection('boards').doc(this.boardId).collection('articles').doc(this.articleId)
+      this.ref.update({
+        readCount: this.$firebase.firestore.FieldValue.increment(1)
+      })
       this.unsubscribe = this.ref.onSnapshot(doc => {
         if (!doc.exists) {
           this.back()
           return
         }
+        this.doc = doc
         const item = doc.data()
         item.createdAt = item.createdAt.toDate()
         item.updatedAt = item.updatedAt.toDate()
@@ -131,6 +152,20 @@ export default {
           likeUids: this.$firebase.firestore.FieldValue.arrayUnion(this.fireUser.uid)
         })
       }
+    },
+    async go (arrow) {
+      if (!this.doc) throw Error('읽지 못했습니다.')
+      const ref = this.$firebase.firestore().collection('boards').doc(this.boardId).collection('articles').orderBy('createdAt', 'desc')
+      let sn
+      if (arrow < 0) sn = await ref.endBefore(this.doc).limitToLast(1).get()
+      else sn = await ref.startAfter(this.doc).limit(1).get()
+      if (sn.empty) throw Error('더이상 없습니다.')
+      const doc = sn.docs[0]
+
+      const us = this.$route.path.split('/')
+      us.pop()
+      us.push(doc.id)
+      this.$router.push({ path: us.join('/') })
     }
   }
 }
