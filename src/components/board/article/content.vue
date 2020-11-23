@@ -54,22 +54,22 @@
         </v-sheet>
         <v-btn text @click="like">
           <v-icon left :color="liked ? 'success' : ''">mdi-thumb-up</v-icon>
-          <sapn>{{article.likeCount}}</sapn>
+          <span>{{article.likeCount}}</span>
         </v-btn>
       </v-card-actions>
       <v-divider/>
       <v-card-actions class="py-0">
         <v-row no-gutters>
           <v-col cols='4'>
-            <v-btn text block="primary" @click="go(-1)"><v-icon left>mdi-menu-left</v-icon>이전 글</v-btn>
+            <v-btn block text color="primary" @click="go(-1)"><v-icon left>mdi-menu-left</v-icon>이전 글</v-btn>
           </v-col>
           <v-col cols='4' class="d-flex">
             <v-divider vertical/>
-            <v-btn text block="primary" @click="back"><v-icon left>mdi-format-list-bulleted</v-icon>목록</v-btn>
+            <v-btn block text color="primary" @click="back"><v-icon left>mdi-format-list-bulleted</v-icon>목록</v-btn>
             <v-divider vertical/>
           </v-col>
           <v-col cols='4'>
-            <v-btn text block="primary" @click="go(1)">다음 글<v-icon>mdi-menu-right</v-icon></v-btn>
+            <v-btn block text color="primary" @click="go(1)">다음 글<v-icon>mdi-menu-right</v-icon></v-btn>
           </v-col>
         </v-row>
       </v-card-actions>

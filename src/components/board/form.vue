@@ -67,6 +67,13 @@ export default {
           form.createdAt = new Date()
           form.count = 0
           form.uid = this.$store.state.fireUser.uid
+          form.user = {
+            email: this.$store.state.user.email,
+            photoURL: this.$store.state.user.photoURL,
+            displayName: this.$store.state.user.displayName
+          }
+          form.categories = ['임시']
+          form.tags = ['임시택1', '임시택2']
           await this.ref.set(form)
         } else {
           await this.ref.update(form)
