@@ -2,6 +2,7 @@
   <v-container fluid :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
     <v-card outlined :tile="$vuetify.breakpoint.xs" v-if="board">
       <v-toolbar color="transparent" dense flat>
+        <!-- <v-chip color="primary" label class="mr-4">{{board.category}}</v-chip> -->
         <v-toolbar-title v-text="board.title"></v-toolbar-title>
       <v-spacer/>
       <v-btn icon @click="dialog=true"><v-icon>mdi-information-outline</v-icon></v-btn>
@@ -33,17 +34,27 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>
-              작성일
-            </v-list-item-title>
-            <v-list-item-subtitle class="font-italic">
-              <display-time :time="board.updatedAt"></display-time>
-            </v-list-item-subtitle>
+                작성일
+              </v-list-item-title>
+              <v-list-item-subtitle class="font-italic">
+                <display-time :time="board.createdAt"></display-time>
+              </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>
-                게시물 수
+                수정일
+              </v-list-item-title>
+              <v-list-item-subtitle class="font-italic">
+                <display-time :time="board.updatedAt"></display-time>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>
+                게시물수
               </v-list-item-title>
               <v-list-item-subtitle class="font-italic">
                 {{board.count}}
@@ -53,7 +64,7 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>
-                카테고리
+                등록된 종류
               </v-list-item-title>
               <v-list-item-subtitle>
                 <v-chip color="info" label small v-for="item in board.categories" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
@@ -63,7 +74,7 @@
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>
-                태그
+                등록된 태그
               </v-list-item-title>
               <v-list-item-subtitle class="comment">
                 <v-chip color="info" label small outlined v-for="item in board.tags" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
@@ -78,6 +89,7 @@
               <v-list-item-subtitle class="comment" v-text="board.description"></v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
+          <v-divider/>
           <v-card-actions>
             <v-spacer/>
             <v-btn text @click="dialog=false"><v-icon left>mdi-close</v-icon>닫기</v-btn>
@@ -94,7 +106,7 @@ import DisplayTime from '@/components/display-time'
 import DisplayUser from '@/components/display-user'
 
 export default {
-  components: { BoardArticle, DisplayUser, DisplayTime },
+  components: { BoardArticle, DisplayTime, DisplayUser },
   props: ['boardId'],
   data () {
     return {
@@ -142,7 +154,7 @@ export default {
 }
 </script>
 <style scoped>
-.comment{
+.comment {
   white-space: pre-wrap;
 }
 </style>
