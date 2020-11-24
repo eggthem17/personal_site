@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="#424242" dark>
+    <v-app-bar app color="primary" dark>
     <v-app-bar-nav-icon app color="orange" @click="drawer = !drawer"/>
     <site-title :title="site.title"></site-title>
     <v-spacer/>

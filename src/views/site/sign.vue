@@ -14,7 +14,7 @@
   </v-menu>
   <v-menu offset-y v-else>
     <template v-slot:activator="{ on }">
-      <v-btn v-on="on">
+      <v-btn icon v-on="on">
         <v-avatar size="32">
           <v-img :src="$store.state.fireUser.photoURL"></v-img>
         </v-avatar>

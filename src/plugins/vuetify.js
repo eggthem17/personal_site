@@ -12,11 +12,24 @@ Vue.use(Vuetify, {
   }
 })
 
+const theme = {
+  themes: {
+    light: {
+      primary: '#424242',
+      secondary: '#D98B2B',
+      accent: '#A68572',
+      info: '#D9B8B8',
+      success: '#F27D52'
+    }
+  }
+}
+
 const VuetifyObj = new Vuetify({
   lang: {
     locales: { en, ko },
     current: 'ko'
-  }
+  },
+  theme
 })
 
 Vue.use(VuetifyToast, {

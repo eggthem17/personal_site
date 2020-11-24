@@ -10,7 +10,7 @@
           </v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn @click="$store.commit('setEdit', !$store.state.editable)" icon>
+          <v-btn color="secondary" @click="$store.commit('setEdit', !$store.state.editable)" icon>
             <v-icon v-text="$store.state.editable ? 'mdi-eye' : 'mdi-pencil'"></v-icon>
           </v-btn>
         </v-list-item-action>
@@ -30,10 +30,10 @@
             <v-list-item-title>
               {{item.title}}
               <span v-if="$store.state.editable">
-                <v-btn icon @click="openDialogItem(i)"><v-icon>mdi-pencil</v-icon></v-btn>
-                <v-btn icon @click="moveItem(items, i, -1)" v-if = "i > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
-                <v-btn icon @click="moveItem(items, i, 1)" v-if = "i < items.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
-                <v-btn icon @click="removeItem(items,i)"><v-icon>mdi-delete</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="openDialogItem(i)"><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="moveItem(items, i, -1)" v-if = "i > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="moveItem(items, i, 1)" v-if = "i < items.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="removeItem(items,i)"><v-icon>mdi-delete</v-icon></v-btn>
               </span>
             </v-list-item-title>
           </v-list-item-content>
@@ -48,10 +48,10 @@
             <v-list-item-title :class="$store.state.editable ? 'pl-4':''">
               {{subItem.title}}
               <span v-if="$store.state.editable">
-                <v-btn icon @click="openDialogSubItem(i,j)"><v-icon>mdi-pencil</v-icon></v-btn>
-                <v-btn icon @click="moveItem(item.subItems, j, -1)" v-if = "j > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
-                <v-btn icon @click="moveItem(item.subItems, j, 1)" v-if = "j < item.subItems.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
-                <v-btn icon @click="removeItem(item.subItems,j)"><v-icon>mdi-delete</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="openDialogSubItem(i,j)"><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="moveItem(item.subItems, j, -1)" v-if = "j > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="moveItem(item.subItems, j, 1)" v-if = "j < item.subItems.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="removeItem(item.subItems,j)"><v-icon>mdi-delete</v-icon></v-btn>
               </span>
             </v-list-item-title>
           </v-list-item-content>
@@ -109,7 +109,7 @@
         <v-card-title>
           서브 수정하기
           <v-spacer/>
-          <v-btn @click="saveSubItem" icon color=""><v-icon>mdi-content-save</v-icon></v-btn>
+          <v-btn @click="saveSubItem" icon color="success"><v-icon>mdi-content-save</v-icon></v-btn>
           <v-btn @click="dialogSubItem=false" icon><v-icon>mdi-close</v-icon></v-btn>
         </v-card-title>
         <v-card-text>
