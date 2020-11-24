@@ -3,7 +3,11 @@
     <v-card v-if="article" outlined :tile="$vuetify.breakpoint.xs">
       <v-toolbar color="transparent" dense flat>
         <v-toolbar-title>
-          <v-chip color="info" small label class="mr-4">{{article.category}}</v-chip>
+          <!--<v-chip color="info" small label class="mr-4">{{article.category}}</v-chip>-->
+          <v-btn color="info" depressed small class="mr-4" @click="back">
+            {{article.category}}
+            <v-icon v-if="!category" right>mdi-menu-rught</v-icon>
+          </v-btn>
           {{article.title}}
         </v-toolbar-title>
         <v-spacer/>
@@ -56,9 +60,11 @@
           <span class="body-2">{{article.likeCount}}</span>
         </v-btn>
       </v-card-actions>
-      <v-card-actions>
-        <v-chip small label outlined color="info" class="mr-2" v-for="tag in article.tags" :key="tag" v-text="tag"></v-chip>
-      </v-card-actions>
+      <v-card-text>
+        <v-row justify="end">
+          <v-chip small label outlined color="info" class="mr-2 mb-2" v-for="tag in article.tags" :key="tag" v-text="tag"></v-chip>
+        </v-row>
+      </v-card-text>
       <v-divider/>
       <v-card-actions class="py-0">
         <v-row no-gutters>
@@ -96,7 +102,7 @@ import DisplayUser from '@/components/display-user'
 
 export default {
   components: { DisplayTime, DisplayComment, DisplayUser },
-  props: ['boardId', 'articleId'],
+  props: ['boardId', 'articleId', 'category', 'tag'],
   data () {
     return {
       content: '',
@@ -167,7 +173,8 @@ export default {
     back () {
       const us = this.$route.path.split('/')
       us.pop()
-      this.$router.push({ path: us.join('/') })
+      if (this.category) this.$router.push({ path: us.join('/'), query: { category: this.category } })
+      else this.$router.push({ path: us.join('/') })
     },
     async like () {
       if (!this.fireUser) throw Error('로그인이 필요합니다')
@@ -185,9 +192,18 @@ export default {
     },
     async go (arrow) {
       if (!this.doc) return
-      const ref = this.$firebase.firestore()
-        .collection('boards').doc(this.boardId)
-        .collection('articles').orderBy('createdAt', 'desc')
+      let ref
+      if (!this.category) {
+        ref = this.$firebase.firestore()
+          .collection('boards').doc(this.boardId)
+          .collection('articles').orderBy('createdAt', 'desc')
+      } else {
+        ref = this.$firebase.firestore()
+          .collection('boards').doc(this.boardId)
+          .collection('articles')
+          .where('category', '==', this.category)
+          .orderBy('createdAt', 'desc')
+      }
       let sn
       if (arrow < 0) sn = await ref.endBefore(this.doc).limitToLast(1).get()
       else sn = await ref.startAfter(this.doc).limit(1).get()
@@ -198,7 +214,8 @@ export default {
       const us = this.$route.path.split('/')
       us.pop()
       us.push(doc.id)
-      this.$router.push({ path: us.join('/') })
+      if (this.category) this.$router.push({ path: us.join('/'), query: { category: this.category } })
+      else this.$router.push({ path: us.join('/') })
     }
   }
 }

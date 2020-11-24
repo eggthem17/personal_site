@@ -3,18 +3,21 @@
     <v-card outlined :tile="$vuetify.breakpoint.xs" v-if="board">
       <v-toolbar color="transparent" dense flat>
         <!-- <v-chip color="primary" label class="mr-4">{{board.category}}</v-chip> -->
-        <v-sheet width="120" class="mr-4">
-          <v-select :value="getCategory" :items="board.categories" @change="changeCategory" dense solo dark single-line hide-details background-color="info"></v-select>
+        <v-sheet width="90" class="mr-4">
+          <v-select :value="getCategory" :items="board.categories" @change="changeCategory" dense solo dark single-line flat hide-details background-color="info"></v-select>
         </v-sheet>
         <v-toolbar-title v-text="board.title"></v-toolbar-title>
       <v-spacer/>
       <v-btn icon @click="dialog=true"><v-icon>mdi-information-outline</v-icon></v-btn>
+      <v-btn icon @click="$store.commit('toggleBoardType')">
+        <v-icon v-text="$store.state.boardTypeList ? 'mdi-format-list-bulleted' : 'mdi-text-box-outline'"></v-icon>
+      </v-btn>
       <template v-if="user">
         <v-btn icon @click="articleWrite" :disabled="!user"><v-icon>mdi-plus</v-icon></v-btn>
       </template>
       </v-toolbar>
       <v-divider/>
-      <board-article :boardId="boardId" :board="board"></board-article>
+      <board-article :boardId="boardId" :board="board" :category="category"></board-article>
       <v-dialog v-model="dialog" max-width="300">
         <v-card>
           <v-toolbar color="transparent" dense flat>
@@ -69,7 +72,7 @@
               <v-list-item-title>
                 등록된 종류
               </v-list-item-title>
-              <v-list-item-subtitle>
+              <v-list-item-subtitle class="white-space">
                 <v-chip color="info" label small v-for="item in board.categories" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -79,7 +82,7 @@
               <v-list-item-title>
                 등록된 태그
               </v-list-item-title>
-              <v-list-item-subtitle class="comment">
+              <v-list-item-subtitle class="white-space">
                 <v-chip color="info" label small outlined v-for="item in board.tags" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -166,7 +169,7 @@ export default {
 }
 </script>
 <style scoped>
-.comment {
+.white-space {
   white-space: pre-wrap;
 }
 </style>
