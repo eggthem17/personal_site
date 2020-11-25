@@ -6,7 +6,7 @@
     <v-spacer/>
     <site-sign></site-sign>
     </v-app-bar>
-    <v-navigation-drawer app v-model="drawer" :width="$store.state.editable ? 380 : null">
+    <v-navigation-drawer app flexed disable-resize-watcher v-model="drawer" :width="$store.state.editable ? 380 : null">
       <site-menu :items="site.menu"></site-menu>
     </v-navigation-drawer>
     <v-content>
@@ -76,3 +76,8 @@ export default {
   }
 }
 </script>
+<style>
+.white-space{
+  white-space: pre-wrap;
+}
+</style>

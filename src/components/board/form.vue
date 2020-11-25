@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
+  <v-container v-if="user && user.level === 0" fluid :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
     <v-form>
       <v-card :loading="loading" outlined :tile="$vuetify.breakpoint.xs">
         <v-toolbar color="transparent" dense flat>
@@ -41,16 +41,19 @@
             <v-card-actions>
               <div width="100">
                 <v-text-field v-model="tag" append-icon="mdi-plus" label="등록" placeholder="eg) Vuetify" hide-details outlined dense @click:append="saveTag" @keypress.enter="saveTag" />
-
               </div>
             </v-card-actions>
           </v-card>
           <v-card outlined>
-
           </v-card>
         </v-card-text>
       </v-card>
     </v-form>
+  </v-container>
+  <v-container v-else fluid>
+    <v-alert type="warning" border="left" class="mb-0">
+      게시판이 없습니다.
+    </v-alert>
   </v-container>
 </template>
 <script>
@@ -121,8 +124,6 @@ export default {
             photoURL: this.$store.state.user.photoURL,
             displayName: this.$store.state.user.displayName
           }
-          form.categories = ['임시']
-          form.tags = ['임시택1', '임시택2']
           await this.ref.set(form)
         } else {
           await this.ref.update(form)

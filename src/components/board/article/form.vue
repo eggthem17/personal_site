@@ -46,7 +46,7 @@ export default {
   data () {
     return {
       form: {
-        category: '임시',
+        category: '',
         tags: [],
         title: '',
         content: ''
