@@ -4,11 +4,11 @@
       <v-toolbar color="transparent" dense flat>
         <v-toolbar-title>
           <!--<v-chip color="info" small label class="mr-4">{{article.category}}</v-chip>-->
-          <v-btn color="info" depressed small class="mr-4" @click="back">
+          <v-btn color="info" depressed small class="mr-4" @click="goCategory">
             {{article.category}}
             <v-icon v-if="!category" right>mdi-menu-rught</v-icon>
           </v-btn>
-          {{article.title}}
+          <span class="hidden-xs-only" v-text="article.title"></span>
         </v-toolbar-title>
         <v-spacer/>
         <template v-if="(fireUser && fireUser.uid === article.uid) || (user && user.level === 0)">
@@ -18,6 +18,7 @@
         <v-btn @click="back" icon><v-icon>mdi-close</v-icon></v-btn>
       </v-toolbar>
       <v-divider/>
+      <v-card-title class="hidden-sm-and-up">{{article.title}}</v-card-title>
       <v-card-text>
         <viewer v-if="content" :initialValue="content"></viewer>
         <v-container v-else>
@@ -216,6 +217,11 @@ export default {
       us.push(doc.id)
       if (this.category) this.$router.push({ path: us.join('/'), query: { category: this.category } })
       else this.$router.push({ path: us.join('/') })
+    },
+    goCategory () {
+      const us = this.$route.path.split('/')
+      us.pop()
+      this.$route.push({ path: us.join('/'), query: { category: this.article.category } })
     }
   }
 }
