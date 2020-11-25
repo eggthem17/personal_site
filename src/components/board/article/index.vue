@@ -1,5 +1,13 @@
 <template>
-  <v-container fluid v-if="items.length" class="pa-0">
+  <v-container fluid v-if="!loaded">
+    <v-skeleton-loader type="article" v-for="i in 3" :key="i"></v-skeleton-loader>
+  </v-container>
+    <v-container fluid v-else-if="loaded && !items.length">
+      <v-alert type="warning" border="left" class="mb-0">
+        게시물이 없습니다.
+      </v-alert>
+    </v-container>
+  <v-container fluid v-else class="pa-0">
     <template v-for="(item, i) in items">
       <template v-if="$store.state.boardTypeList">
         <v-list-item three-line :key="item.id" :to="category ? `${boardId}/${item.id}?category=${category}`:`${boardId}/${item.id}`">
@@ -7,7 +15,7 @@
             <v-list-item-title>
               <v-btn
                 v-if="category != item.category"
-                color="info"
+                color="accent"
                 depressed
                 small
                 class="mr-4"
@@ -16,9 +24,15 @@
                 {{item.category}}
                 <v-icon right>mdi-menu-right</v-icon>
               </v-btn>
-              <span class="hidden-xs-only" v-text="item.title"></span>
+              <template v-if="!$vuetify.breakpoint.xs">
+                <v-icon color="accent" left v-if="newCheck(item.updatedAt)">mdi-fire</v-icon>
+                <span v-text="item.title"></span>
+              </template>
             </v-list-item-title>
-            <v-list-item-title class="hidden-sm-and-up" v-text="item.title"></v-list-item-title>
+            <v-list-item-title v-if="$vuetify.breakpoint.xs">
+              <v-icon color="accent" left v-if="newCheck(item.updatedAt)">mdi-fire</v-icon>
+              <span v-text="item.title"></span>
+            </v-list-item-title>
             <v-list-item-subtitle>
               {{getSummary(item.summary, 100, '!')}}
             </v-list-item-subtitle>
@@ -28,16 +42,16 @@
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-sheet>
-              <v-icon left :color="item.readCount ? 'info' : ''">mdi-eye</v-icon>
-              <span class="body-2">{{item.readCount.toString().padStart(' ', 2)}}</span>
+            <v-sheet class="d-flex justify-space-between">
+              <v-icon left :color="item.readCount ? 'accent' : ''">mdi-eye</v-icon>
+              <span class="body-2">{{item.readCount}}</span>
             </v-sheet>
-            <v-sheet>
-              <v-icon left :color="item.commentCount ? 'info' : ''">mdi-comment</v-icon>
-              <span class="body-2">{{item.commentCount.toString().padStart(2, ' ')}}</span>
+            <v-sheet class="d-flex justify-space-between">
+              <v-icon left :color="item.commentCount ? 'accent' : ''">mdi-comment</v-icon>
+              <span class="body-2">{{item.commentCount}}</span>
             </v-sheet>
-            <v-sheet>
-              <v-icon left :color="liked(item) ? 'success' : ''">mdi-thumb-up</v-icon>
+            <v-sheet class="d-flex justify-space-between">
+              <v-icon left :color="liked(item) ? 'accent' : ''">mdi-thumb-up</v-icon>
               <span class="body-2">{{item.likeCount}}</span>
             </v-sheet>
           </v-list-item-action>
@@ -47,7 +61,7 @@
       <v-card v-else :key="item.id" :class="i < items.length - 1 ? 'mb-4' : ''" class="ma-4">
         <v-subheader>
           <!-- <v-chip color="info" label small class="mr-4">{{item.category}}</v-chip> -->
-          <v-btn v-if="category != item.category" color="info" depressed small class="mr-4" :to="`${$route.path}?category=${item.category}`">
+          <v-btn v-if="category != item.category" color="accent" depressed small class="mr-4" :to="`${$route.path}?category=${item.category}`">
             {{item.category}}
           </v-btn>
           <display-time :time="item.createdAt"></display-time>
@@ -57,6 +71,7 @@
 
         <v-card color="transparent" flat :to="category ? `${boardId}/${item.id}?category=${category}` : `${boardId}/${item.id}`">
           <v-card-title>
+            <v-icon color="accent" left v-if="newCheck(item.updatedAt)">mdi-fire</v-icon>
             {{item.title}}
             <v-icon right>mdi-menu-right</v-icon>
           </v-card-title>
@@ -76,33 +91,30 @@
         <v-card-actions>
           <v-spacer/>
           <v-sheet class="mr-4">
-            <v-icon left :color="item.readCount ? 'info' : ''">mdi-eye</v-icon>
+            <v-icon left :color="item.readCount ? 'accent' : ''">mdi-eye</v-icon>
             <span class="body-2">{{item.readCount}}</span>
           </v-sheet>
           <v-sheet class="mr-4">
-            <v-icon left :color="item.commentCount ? 'info' : ''">mdi-comment</v-icon>
+            <v-icon left :color="item.commentCount ? 'accent' : ''">mdi-comment</v-icon>
             <span class="body-2">{{item.commentCount}}</span>
           </v-sheet>
           <v-sheet class="mr-0">
-            <v-icon left :color="liked(item) ? 'success' : ''">mdi-thumb-up</v-icon>
+            <v-icon left :color="liked(item) ? 'accent' : ''">mdi-thumb-up</v-icon>
             <span class="body-2">{{item.likeCount}}</span>
           </v-sheet>
         </v-card-actions>
         <v-card-text class="mb-0">
           <v-row justify="end">
-            <v-chip small label outlined color="info" class="mr-2 mb-2" v-for="tag in item.tags" :key="tag" v-text="tag"></v-chip>
+            <v-chip small label outlined color="accent" class="mr-2 mb-2" v-for="tag in item.tags" :key="tag" v-text="tag"></v-chip>
           </v-row>
         </v-card-text>
       </v-card>
     </template>
     <v-list-item v-if="lastDoc && items.length < board.count">
-      <v-btn @click="more" v-intersect="onIntersect" text color="primary" block :loading="loading">더보기</v-btn>
+      <v-btn @click="more" v-intersect="onIntersect" text color="primary" block :loading="loading">
+        <v-icon>mdi-dots-horizontal</v-icon>더보기
+      </v-btn>
     </v-list-item>
-  </v-container>
-  <v-container fluid v-else>
-    <v-alert type="warning" border="left" class="mb-0">
-      게시물이 없습니다.
-    </v-alert>
   </v-container>
 </template>
 <script>
@@ -110,6 +122,7 @@ import { last } from 'lodash'
 import DisplayTime from '@/components/display-time'
 import DisplayUser from '@/components/display-user'
 import getSummary from '@/util/getSummary'
+import newCheck from '@/util/newCheck'
 
 const LIMIT = 5
 
@@ -125,7 +138,9 @@ export default {
       order: 'createdAt',
       sort: 'desc',
       loading: false,
-      getSummary
+      getSummary,
+      newCheck,
+      loaded: false
     }
   },
   computed: {
@@ -193,8 +208,9 @@ export default {
           .where('category', '==', this.category)
           .orderBy(this.order, this.sort).limit(LIMIT)
       }
-
+      this.loaded = false
       this.unsubscribe = this.ref.onSnapshot(sn => {
+        this.loaded = true
         if (sn.empty) {
           this.items = []
           return

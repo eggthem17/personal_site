@@ -15,11 +15,12 @@ Vue.use(Vuetify, {
 const theme = {
   themes: {
     light: {
-      primary: '#424242',
-      secondary: '#D98B2B',
-      accent: '#A68572',
-      info: '#D9B8B8',
-      success: '#F27D52'
+      primary: '#3B3B48', // graphite
+      secondary: '#716E6A', // grey
+      accent: '#F29829', // orange
+      info: '#F29829', // orange
+      success: '#D94436', // red
+      default: '#F2F2F2' // white
     }
   }
 }

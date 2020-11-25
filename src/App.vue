@@ -1,13 +1,13 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="secondary" dark>
     <v-app-bar-nav-icon app color="orange" @click="drawer = !drawer"/>
     <site-title :title="site.title"></site-title>
     <v-spacer/>
     <site-sign></site-sign>
     </v-app-bar>
-    <v-navigation-drawer app flexed disable-resize-watcher v-model="drawer" :width="$store.state.editable ? 380 : null">
-      <site-menu :items="site.menu"></site-menu>
+    <v-navigation-drawer app v-model="drawer" :width="$store.state.editable ? 380 : null">
+      <site-menu :items="site.menu" @close="drawer=false"></site-menu>
     </v-navigation-drawer>
     <v-content>
       <router-view/>

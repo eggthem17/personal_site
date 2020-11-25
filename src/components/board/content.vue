@@ -1,12 +1,23 @@
 <template>
-  <v-container fluid :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
-    <v-card outlined :tile="$vuetify.breakpoint.xs" v-if="board">
+  <v-container v-if="!loaded" fluid>
+    <v-skeleton-loader type="card"></v-skeleton-loader>
+  </v-container>
+  <v-container v-else-if="loaded && !board" fluid>
+    <v-alert type="warning" border="left" class="mb-0">
+      게시판이 없습니다.
+    </v-alert>
+  </v-container>
+  <v-container v-else fluid :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
+    <v-card outlined :tile="$vuetify.breakpoint.xs">
       <v-toolbar color="transparent" dense flat>
         <!-- <v-chip color="primary" label class="mr-4">{{board.category}}</v-chip> -->
         <v-sheet width="100" class="mr-4">
-          <v-select :value="getCategory" :items="board.categories" @change="changeCategory" dense solo dark single-line flat hide-details background-color="info"></v-select>
+          <v-select :value="getCategory" :items="board.categories" @change="changeCategory" dense outlined single-line flat hide-details></v-select>
         </v-sheet>
-        <v-toolbar-title class="hidden-xs-only" v-text="board.title"></v-toolbar-title>
+        <template v-if="!$vuetify.breakpoint.xs">
+          <v-icon color="accent" left v-if="newCheck(board.updatedAt)">mdi-fire</v-icon>
+          <span v-text="board.title"></span>
+        </template>
       <v-spacer/>
       <v-btn icon @click="dialog=true"><v-icon>mdi-information-outline</v-icon></v-btn>
       <v-btn icon @click="$store.commit('toggleBoardType')">
@@ -17,7 +28,10 @@
       </template>
       </v-toolbar>
       <v-divider/>
-      <v-card-title class="hidden-sm-and-up" v-text="board.title"></v-card-title>
+      <v-card-title v-if="$vuetify.breakpoint.xs">
+        <v-icon color="accent" left v-if="newCheck(board.updatedAt)">mdi-fire</v-icon>
+        <span v-text="board.title"></span>
+      </v-card-title>
       <board-article :boardId="boardId" :board="board" :category="category"></board-article>
       <v-dialog v-model="dialog" max-width="300">
         <v-card>
@@ -74,7 +88,7 @@
                 등록된 종류
               </v-list-item-title>
               <v-list-item-subtitle class="white-space">
-                <v-chip color="info" label small v-for="item in board.categories" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
+                <v-chip color="accent" label small v-for="item in board.categories" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -84,7 +98,7 @@
                 등록된 태그
               </v-list-item-title>
               <v-list-item-subtitle class="white-space">
-                <v-chip color="info" label small outlined v-for="item in board.tags" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
+                <v-chip color="accent" label small outlined v-for="item in board.tags" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -104,13 +118,13 @@
         </v-card>
       </v-dialog>
     </v-card>
-    <v-skeleton-loader type="card" v-else></v-skeleton-loader>
   </v-container>
 </template>
 <script>
 import BoardArticle from './article/index'
 import DisplayTime from '@/components/display-time'
 import DisplayUser from '@/components/display-user'
+import newCheck from '@/util/newCheck'
 
 export default {
   components: { BoardArticle, DisplayTime, DisplayUser },
@@ -120,7 +134,9 @@ export default {
       unsubscribe: null,
       board: null,
       loading: false,
-      dialog: false
+      dialog: false,
+      newCheck,
+      loaded: false
     }
   },
   watch: {
@@ -147,7 +163,9 @@ export default {
     subscribe () {
       if (this.unsubscribe) this.unsubscribe()
       const ref = this.$firebase.firestore().collection('boards').doc(this.boardId)
+      this.loaded = false
       this.unsubscribe = ref.onSnapshot(doc => {
+        this.loaded = true
         if (!doc.exists) return this.write()
         const item = doc.data()
         item.createdAt = item.createdAt.toDate()

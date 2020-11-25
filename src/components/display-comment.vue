@@ -5,7 +5,6 @@
         v-model="comment"
         outlined
         label="댓글 작성"
-        placeholder="댓글을 남겨 주세요."
         append-icon="mdi-comment-plus"
         @click:append="save"
         hide-details
@@ -16,32 +15,52 @@
     <template v-for="(item, i) in items">
       <v-list-item :key="item.id">
         <v-list-item-content>
-          <v-list-item-subtitle v-if="!item.edit" class="black--text white-space" v-text="item.comment"></v-list-item-subtitle>
+          <v-list-item-subtitle v-if="!item.edit" class="black--text white-space">
+            <v-icon color="accent" left v-if="newCheck(item.updatedAt)">mdi-fire</v-icon> {{item.comment}}
+          </v-list-item-subtitle>
           <v-list-item-subtitle v-else>
-            <v-textarea v-model="item.comment" outlined label="댓글 수정" append-icon="mdi-comment-edit" @click:append="update(item)" hide-details auto-grow rows="1" clearable class="mt-2"/>
+            <v-textarea
+              v-model="item.comment"
+              outlined
+              label="댓글 수정"
+              append-icon="mdi-comment-edit"
+              @click:append="update(item)"
+              hide-details
+              auto-grow
+              rows="1"
+              clearable
+              class="mt-2"
+            ></v-textarea>
           </v-list-item-subtitle>
           <v-list-item-subtitle class="d-flex justify-end align-center">
             <span class="font-italic mr-4"><display-time :time="item.createdAt"></display-time></span>
             <display-user :user="item.user" size="small"></display-user>
           </v-list-item-subtitle>
-        <v-list-item-title class="d-flex justify-end">
-          <v-btn icon @click="item.edit=!item.edit" :color="item.edit ? 'warning' : ''" v-if="(fireUser && fireUser.uid === item.uid)">
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-          <v-btn icon @click="remove(item)" v-if="(fireUser && fireUser.uid === item.uid) || (user && user.level === 0)">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-          <v-btn @click="like(item)" text>
-            <v-icon left :color="liked(item) ? 'success': ''">mdi-thumb-up</v-icon>
-            <span>{{item.likeCount}}</span>
-          </v-btn>
-        </v-list-item-title>
+          <v-list-item-title class="d-flex justify-end">
+            <v-btn
+              icon
+              @click="item.edit=!item.edit"
+              :color="item.edit ? 'warning' : ''"
+              v-if="(fireUser && fireUser.uid === item.uid)"
+            >
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn icon @click="remove(item)" v-if="(fireUser && fireUser.uid === item.uid) || (user && user.level === 0)">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+            <v-btn @click="like(item)" text>
+              <v-icon left :color="liked(item) ? 'accent': ''">mdi-thumb-up</v-icon>
+              <span>{{item.likeCount}}</span>
+            </v-btn>
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-divider :key="i" v-if="i < items.length - 1"></v-divider>
     </template>
     <v-list-item v-if="lastDoc && items.length < article.commentCount">
-      <v-btn @click="more" :loading="loading" v-intersect="onIntersect" text color="primary" block>더보기</v-btn>
+      <v-btn @click="more" :loading="loading" v-intersect="onIntersect" text color="primary" block>
+        <v-icon>mdi-dots-horizontal</v-icon>더보기
+      </v-btn>
     </v-list-item>
   </v-card>
 </template>
@@ -49,6 +68,7 @@
 import { last } from 'lodash'
 import DisplayTime from '@/components/display-time'
 import DisplayUser from '@/components/display-user'
+import newCheck from '@/util/newCheck'
 const LIMIT = 5
 
 export default {
@@ -60,7 +80,8 @@ export default {
       items: [],
       unsubscribe: null,
       lastDoc: null,
-      loading: false
+      loading: false,
+      newCheck
     }
   },
   computed: {
@@ -133,7 +154,7 @@ export default {
     async save () {
       if (!this.fireUser) throw Error('로그인이 필요합니다')
       if (!this.comment) throw Error('내용을 작성해야 합니다')
-      if (this.comment.length > 1000) throw Error('문자 허용치(1000)을 넘었습니다')
+      if (this.comment.length > 300) throw Error('문자 허용치를 넘었습니다')
       const doc = {
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -190,3 +211,4 @@ export default {
     }
   }
 }
+</script>
