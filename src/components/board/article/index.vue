@@ -34,7 +34,12 @@
               <span v-text="item.title"></span>
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{getSummary(item.summary, 100, '!')}}
+              <viewer v-if="item.summary" :initialValue="getSummary(item.summary, 100, '!')"></viewer>
+              <v-container v-else>
+                <v-row justify="center" align="center">
+                  <v-progress-circular indeterminate></v-progress-circular>
+                </v-row>
+              </v-container>
             </v-list-item-subtitle>
             <v-list-item-subtitle class="d-flex justify-space-between align-center">
               <display-time :time="item.createdAt"></display-time>
