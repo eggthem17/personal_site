@@ -79,7 +79,10 @@ export default {
         hooks: {
           addImageBlobHook: this.addImageBlobHook
         }
-      }
+      },
+      plugins: [
+        [this.youtubePlugin]
+      ]
     }
   },
   computed: {
@@ -93,10 +96,18 @@ export default {
   watch: {
     boardId () {
       this.fetch()
+    },
+    articleId () {
+      this.fetch()
+    },
+    action () {
+      this.fetch()
     }
   },
   created () {
     this.fetch()
+  },
+  mounted () {
   },
   destroyed () {
   },
