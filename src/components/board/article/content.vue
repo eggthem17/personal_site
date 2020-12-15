@@ -56,8 +56,8 @@
       </v-card-actions>
       <v-card-actions>
         <v-spacer/>
-        <v-btn rounded @click="like" :color="liked ? 'success' : ''">
-          <v-icon left>mdi-thumb-up-outlined</v-icon>
+        <v-btn rounded @click="like" :color="liked ? 'accent' : ''">
+          <v-icon left>mdi-thumb-up-outline</v-icon>
           좋아요
           <!-- <span class="body-2">{{article.likeCount}}</span> -->
         </v-btn>
@@ -192,6 +192,13 @@ export default {
       this.$router.push({ path: this.$route.path, query: { action: 'write' } })
     },
     async remove () {
+      const r = await this.$sweetalert.fire({
+        title: '글이 삭제됩니다.',
+        html: '본문과 댓글이 모두 삭제됩니다.<br>' + '또한 복구할 수 없습니다.',
+        icon: 'warning',
+        showCancelButton: true
+      })
+      if (!r.value) return
       await this.ref.delete()
     },
     back () {

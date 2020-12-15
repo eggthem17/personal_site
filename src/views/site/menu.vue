@@ -205,7 +205,14 @@ export default {
       items.splice(i + arrow, 0, ...items.splice(i, 1))
       this.save()
     },
-    removeItem (items, i) {
+    async removeItem (items, i) {
+      const r = await this.$sweetalert.fire({
+        title: '메뉴가 삭제됩니다.',
+        html: '하위 컨텐츠가 모두 삭제됩니다.<br>' + '또한 복구할 수 없습니다.',
+        icon: 'warning',
+        showCancelButton: true
+      })
+      if (!r.value) return
       items.splice(i, 1)
       this.save()
     }

@@ -244,6 +244,13 @@ export default {
       if (isIntersecting) this.more()
     },
     async remove (item) {
+      const r = await this.$sweetalert.fire({
+        title: '게시판이 삭제됩니다.',
+        html: '해당 게시판의 모든 컨텐츠가 삭제됩니다.<br>' + '또한 복구할 수 업습니다.',
+        icon: 'warning',
+        showCancelButton: true
+      })
+      if (!r.value) return
       await this.$firebase.firestore()
         .collection('boards').doc(item.id).delete()
       const i = this.items.findIndex(el => el.id === item.id)

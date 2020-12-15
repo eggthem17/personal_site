@@ -258,6 +258,13 @@ export default {
       comment.likeUids = item.likeUids
     },
     async remove (comment) {
+      const r = await this.$sweetalert.fire({
+        title: '댓글이 삭제됩니다.',
+        html: '대댓글은 삭제되지 않습니다.<br>' + '또한 복구할 수 없습니다.',
+        icon: 'warning',
+        showCancelButton: true
+      })
+      if (!r.value) return
       await this.docRef.collection('comments').doc(comment.id).delete()
       const i = this.items.findIndex(el => el.id === comment.id)
       this.items.splice(i, 1)
