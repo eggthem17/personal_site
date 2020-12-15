@@ -128,6 +128,9 @@ export default {
             photoURL: this.$store.state.user.photoURL,
             displayName: this.$store.state.user.displayName
           }
+          form.readCount = 0
+          form.commentCount = 0
+          form.likeCount = 0
           await this.ref.set(form)
         } else {
           await this.ref.update(form)

@@ -15,7 +15,7 @@
           <v-select :value="getCategory" :items="board.categories" @change="changeCategory" dense outlined single-line flat hide-details></v-select>
         </v-sheet>
         <template v-if="!$vuetify.breakpoint.xs">
-          <v-icon color="accent" left v-if="newCheck(board.updatedAt)">mdi-fire</v-icon>
+          <v-icon color="accent" left v-if="newCheck(board.updatedAt, 'days', 1)">mdi-fire</v-icon>
           <span v-text="board.title"></span>
         </template>
       <v-spacer/>
