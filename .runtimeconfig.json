@@ -1,0 +1,8 @@
+{
+  "admin": {
+    "db_url": "https://chillog.firebaseio.com",
+    "region": "asia-northeast1",
+    "bucket_url": "chillog.appspot.com",
+    "email": "eggthem17@gmail.com"
+  }
+}

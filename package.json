@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && cp -rf ./dist/index.html ./functions/index.html",
     "lint": "vue-cli-service lint",
     "deploy": "firebase deploy",
     "deploy:db": "firebase deploy --only database",
@@ -24,6 +24,8 @@
     "firebase": "^7.19.1",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
+    "node-html-parser": "^2.0.0",
+    "pluralize": "^8.0.0",
     "sweetalert2": "^10.12.5",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
