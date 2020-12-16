@@ -13,7 +13,7 @@
         <v-toolbar-title>
           <v-btn color="accent" depressed small class="mr-4" outlined @click="goCategory">
             {{article.category}}
-            <v-icon v-if="!category" right>mdi-menu-rught</v-icon>
+            <v-icon v-if="!category" right>mdi-menu-right</v-icon>
           </v-btn>
         </v-toolbar-title>
         <v-spacer/>
@@ -195,7 +195,7 @@ export default {
       const ogDescriptionNode = document.querySelector('head meta[property="og:description"]')
       const ogImageNode = document.querySelector('head meta[property="og:image"]')
 
-      const title = item.title
+      const title = item.title + ' : chillog'
       const description = item.summary.substr(0, 80)
       const image = item.images.length ? item.images[0].thumbUrl : '/logo.png'
 

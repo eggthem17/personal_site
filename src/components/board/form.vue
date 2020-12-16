@@ -16,10 +16,22 @@
         <v-btn icon @click="save" :disabled="user && user.level !== 0"><v-icon>mdi-content-save</v-icon></v-btn>
         <v-btn icon @click="$router.push('/board/' + boardId)"><v-icon>mdi-close</v-icon></v-btn>
         </v-toolbar>
+        <v-divider/>
         <v-card-text>
-          <v-text-field v-model="form.category" outlined label="종류"></v-text-field>
-          <v-text-field v-model="form.title" outlined label="제목"></v-text-field>
-          <v-textarea v-model="form.description" outlined label="설명" hide-details></v-textarea>
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-text-field v-model="form.category" outlined label="종류"></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-select v-model="form.type" :items="types" outlined label="유형"></v-select>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field v-model="form.title" outlined label="제목"></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-textarea v-model="form.description" outlined label="설명" hide-details=""></v-textarea>
+            </v-col>
+          </v-row>
         </v-card-text>
         <v-card-text>
           <v-card outlined>
@@ -67,14 +79,16 @@ export default {
         title: '',
         description: '',
         categories: [],
-        tags: []
+        tags: [],
+        type: ''
       },
       exists: false,
       loading: false,
       ref: null,
       category: '',
       tag: '',
-      loaded: false
+      loaded: false,
+      types: ['일반', '갤러리']
     }
   },
   computed: {
@@ -104,17 +118,26 @@ export default {
         this.form.description = item.description
         this.form.categories = item.categories
         this.form.tags = item.tags
+        this.form.type = item.type
       }
     },
     async save () {
       if (!this.$store.state.fireUser) throw Error('로그인이 필요합니다.')
       if (!this.form.category || !this.form.title) throw Error('종류와 제목은 필수입니다.')
+      const r = await this.$sweetalert.fire({
+        title: '정말 추가하시겠습니까?',
+        text: '이후 항목을 변결할 수 없습니다.',
+        icon: 'warning',
+        showCancelButton: true
+      })
+      if (!r.value) return
       const form = {
         category: this.form.category,
         title: this.form.title,
         description: this.form.description,
         categories: this.form.categories,
         tags: this.form.tags,
+        type: this.form.type,
         updatedAt: new Date()
       }
       this.loading = true

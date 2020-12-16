@@ -2,106 +2,17 @@
   <v-container fluid v-if="!loaded">
     <v-skeleton-loader type="article" v-for="i in 3" :key="i"></v-skeleton-loader>
   </v-container>
-    <v-container fluid v-else-if="loaded && !items.length">
-      <v-alert type="warning" border="left" class="mb-0">
+  <v-container fluid v-else-if="loaded && !items.length">
+    <v-alert type="warning" border="left" class="mb-0">
         게시물이 없습니다.
-      </v-alert>
-    </v-container>
+    </v-alert>
+  </v-container>
   <v-container fluid v-else class="pa-0">
-    <template v-for="(item, i) in items">
-      <template v-if="$store.state.boardTypeList">
-        <v-list-item three-line :key="item.id" :to="category ? `${boardId}/${item.id}?category=${category}`:`${boardId}/${item.id}`">
-          <v-list-item-content>
-            <v-list-item-subtitle class="d-flex align-center text--primary body-1">
-              <v-btn
-                v-if="!$vuetify.breakpoint.xs && category != item.category"
-                color="accent"
-                depressed
-                small
-                outlined
-                class="mr-4"
-                :to="`${$route.path}?category=${item.category}`"
-              >
-                {{item.category}}
-                <v-icon right>mdi-menu-right</v-icon>
-              </v-btn>
-              <display-title :item="item"/>
-              <v-spacer/>
-            </v-list-item-subtitle>
-            <v-list-item-subtitle class="d-flex justify-space-between align-center">
-              <span class="font-italic caption"><display-time :time="item.createdAt"></display-time></span>
-              <v-spacer/>
-              <v-btn icon v-if="fireUser && fireUser.uid === item.uid" :to="`${boardId}/${item.id}?action=write`"><v-icon>mdi-pencil</v-icon></v-btn>
-              <display-user :user="item.user" :size="'small'"></display-user>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <display-count :item="item" :column="true"></display-count>
-          </v-list-item-action>
-        </v-list-item>
-        <v-divider v-if="i < items.length - 1" :key="i"/>
+      <template v-if="board.type === 'default'">
+        <list-compact v-if="$store.state.boardTypeList" :items="items" :boardId="boardId" :category="category"/>
+        <list-normal v-else :items="items" :boardId="boardId" :category="category"/>
       </template>
-        <template v-else>
-        <v-card :key="item.id" :class="$vuetify.breakpoint.xs ? '' : 'ma-4'" :flat="$vuetify.breakpoint.xs">
-          <v-card color="transparent" flat :to="category ? `${boardId}/${item.id}?category=${category}` : `${boardId}/${item.id}`">
-            <v-card-subtitle class="text--primary body-1" :class="item.important > 0 ? 'text-truncate': ''">
-              <display-title :item="item"/>
-              <v-spacer/>
-              <display-count v-if="item.important > 0" :item="item" :column="false"></display-count>
-            </v-card-subtitle>
-            <template v-if="!item.important">
-            <v-card-text>
-              <viewer v-if="item.summary" :initialValue="item.summary" @load="onViewerLoad" :options="tuiOptions"></viewer>
-              <v-container v-else>
-                <v-row justify="center" align="center">
-                  <v-progress-circular indeterminate></v-progress-circular>
-                </v-row>
-              </v-container>
-            </v-card-text>
-            <v-card-actions class="d-flex justify-center">
-              <v-btn text color="primary">
-                  <v-icon left>mdi-dots-horizontal</v-icon>더보기
-                </v-btn>
-                <v-btn
-                  v-if="fireUser && fireUser.uid === item.uid"
-                  :to="`${boardId}/${item.id}?action=write`"
-                  text color="primary">
-                  <v-icon left>mdi-pencil</v-icon>수정하기
-                </v-btn>
-            </v-card-actions>
-            </template>
-          </v-card>
-          <template v-if="!item.important">
-          <v-card-actions>
-            <span class="font-italic caption"><display-time :time="item.createdAt"></display-time></span>
-            <v-spacer/>
-            <display-user :user="item.user"></display-user>
-          </v-card-actions>
-          <v-card-actions>
-            <v-spacer/>
-            <display-count :item="item" :column="false"></display-count>
-            </v-card-actions>
-          <v-card-text>
-              <v-row justify="start" align="center" class="px-4">
-                <v-btn
-                  color="primary"
-                  depressed
-                  small
-                  outlined
-                  class="mr-4 mb-2"
-                  :to="`${$route.path}?category=${item.category}`"
-                >
-                  {{item.category}}
-                  <v-icon right>mdi-menu-right</v-icon>
-                </v-btn>
-              <v-chip small label outlined color="accent" class="mr-2 mb-2" v-for="tag in item.tags" :key="tag" v-text="tag"></v-chip>
-            </v-row>
-          </v-card-text>
-          </template>
-        </v-card>
-        <v-divider v-if="i < items.length -1 && $vuetify.breakpoint.xs" :key="i"/>
-      </template>
-    </template>
+      <list-gallery v-else :items="items" :boardId="boardId" :category="category"/>
     <v-list-item v-if="lastDoc && items.length < board.count">
       <v-btn @click="more" v-intersect="onIntersect" text color="primary" block :loading="loading">
         <v-icon>mdi-dots-horizontal</v-icon>더보기
@@ -111,25 +22,17 @@
 </template>
 <script>
 import { last } from 'lodash'
-import DisplayTime from '@/components/display-time'
-import DisplayUser from '@/components/display-user'
-import DisplayTitle from '@/components/display-title'
-import DisplayCount from '@/components/display-count'
-import getSummary from '@/util/getSummary'
-import addYoutubeIrame from '@/util/addYoutubeIframe'
+import ListCompact from './components/list-compact'
+import ListNormal from './components/list-normal'
+import ListGallery from './components/list-gallery'
 
 const LIMIT = 5
 
 export default {
-  components: { DisplayTime, DisplayUser, DisplayTitle, DisplayCount },
+  components: { ListCompact, ListNormal, ListGallery },
   props: ['board', 'boardId', 'category', 'tag'],
   data () {
     return {
-      tuiOptions: {
-        linkAttribute: {
-          target: '_blank'
-        }
-      },
       items: [],
       unsubscribe: null,
       ref: null,
@@ -137,7 +40,6 @@ export default {
       order: 'createdAt',
       sort: 'desc',
       loading: false,
-      getSummary,
       loaded: false
     }
   },
@@ -219,9 +121,6 @@ export default {
         this.snapshotToItems(sn)
       })
     },
-    read (item) {
-      this.$router.push({ path: this.$route.path + '/' + item.id })
-    },
     async more () {
       if (!this.lastDoc) throw Error('더이상 데이터가 없습니다')
       if (this.loading) return
@@ -235,13 +134,6 @@ export default {
     },
     onIntersect (entries, observer, isIntersecting) {
       if (isIntersecting) this.more()
-    },
-    liked (item) {
-      if (!this.fireUser) return false
-      return item.likeUids.includes(this.fireUser.uid)
-    },
-    onViewerLoad (v) {
-      addYoutubeIrame(v.preview.el, this.$vuetify.breakpoint)
     }
   }
 }

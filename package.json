@@ -13,7 +13,7 @@
     "deploy:hs": "firebase deploy --only hosting",
     "deploy:st": "firebase deploy --only storage",
     "predeploy": "yarn build",
-    "predeploy:hs": "yarn build",
+    "predeploy:hs": "yarn build && firebase deploy --only functions:seo",
     "serve.fn": "firebase serve --only functions"
   },
   "dependencies": {
@@ -22,6 +22,8 @@
     "browser-image-resizer": "^2.1.3",
     "core-js": "^3.6.5",
     "firebase": "^7.19.1",
+    "firebase-admin": "^9.4.2",
+    "firebase-functions": "^3.13.0",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "node-html-parser": "^2.0.0",
