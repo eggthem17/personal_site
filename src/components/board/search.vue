@@ -10,7 +10,6 @@
     <v-container v-else fluid class="">
       <v-alert border="left" color="info" outlined>
         <v-card-title class="body-1">
-          <v-icon>mdi-madnify</v-icon>
           <span class="font-weight-bold mr-1">{{text}}</span>
           (으)로 검색된 결과:
           <span class="font-weight-bold ml-1">{{result.nbHits}}</span>
@@ -85,7 +84,7 @@ export default {
           if (!exists) {
             const item = hit
             item.content = hit.content.substr(0, 300)
-            item.createdAt = new Date(hit.createAt)
+            item.createdAt = new Date(hit.createdAt)
             item.updatedAt = new Date(hit.updatedAt)
             this.items.push(item)
           }

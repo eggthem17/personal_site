@@ -18,7 +18,7 @@
       </v-btn>
     </v-card-actions>
     <v-card-actions>
-      <span class="font-italic caption"><display-time :time="new Date(item.createdAt)"/></span>
+      <span class="font-italic caption"><display-time :time="new Date(item.createdAt)" /></span>
       <v-spacer/>
       <display-user :user="{email: item.email, displayName: item.displayName}" size="small"/>
     </v-card-actions>

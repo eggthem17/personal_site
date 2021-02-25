@@ -6,7 +6,7 @@ const region = functions.config().admin.region || 'us-central1'
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: functions.config().admin.db_url, // 'https://chillog.firebaseio.com'
+  databaseURL: functions.config().admin.db_url,
   storageBucket: functions.config().admin.bucket_url
 })
 
