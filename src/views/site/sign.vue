@@ -42,7 +42,7 @@ export default {
       this.$firebase.auth().languageCode = 'en'
       this.loading = true
       try {
-        const sn = await this.$firebase.auth().signInWithPopup(provider)
+        const sn = await this.$firebase.auth().signInWithRedirect(provider)
         this.$store.commit('setFireUser', sn.user)
       } finally {
         this.loading = false

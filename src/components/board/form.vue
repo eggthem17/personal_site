@@ -37,7 +37,7 @@
           <v-card outlined>
             <v-subheader>종류</v-subheader>
             <v-card-text>
-              <v-chip color="accent" label small v-for="(item, i) in form.categories" :key="i" class="mr-2 mb-2">
+              <v-chip color="accent" outlined label small v-for="(item, i) in form.categories" :key="i" class="mr-2 mb-2">
                 {{item}}
                 <v-icon small right @click="removeCategory(item,i)">mdi-close</v-icon>
               </v-chip>
@@ -70,6 +70,8 @@
   </v-container>
 </template>
 <script>
+import setMeta from '@/util/setMeta'
+
 export default {
   props: ['boardId', 'action'],
   data () {
@@ -106,6 +108,11 @@ export default {
   },
   methods: {
     async fetch () {
+      setMeta({
+        title: '게시판 수정',
+        description: '게시판을 생성, 수정합니다.',
+        image: '/logo.png'
+      })
       this.ref = this.$firebase.firestore().collection('boards').doc(this.boardId)
       this.loaded = false
       const doc = await this.ref.get()

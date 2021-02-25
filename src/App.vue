@@ -1,17 +1,18 @@
 <template>
   <v-app>
-    <v-app-bar app color="secondary" dark>
+    <v-app-bar app color="secondary" dark :clipped-left="$vuetify.breakpoint.lgAndUp">
     <v-app-bar-nav-icon app color="orange" @click="drawer = !drawer"/>
     <site-title :title="site.title"></site-title>
     <v-spacer/>
+    <site-search/>
     <site-sign></site-sign>
     </v-app-bar>
-    <v-navigation-drawer app v-model="drawer" :width="$store.state.editable ? 380 : null">
+    <v-navigation-drawer app v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" :width="$store.state.editable ? 380 : null">
       <site-menu :items="site.menu" @close="drawer=false"></site-menu>
     </v-navigation-drawer>
-    <v-content>
+    <v-main>
       <router-view/>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -19,9 +20,10 @@
 import SiteTitle from '@/views/site/title'
 import SiteMenu from '@/views/site/menu'
 import SiteSign from '@/views/site/sign'
+import SiteSearch from '@/views/site/search'
 
 export default {
-  components: { SiteTitle, SiteMenu, SiteSign },
+  components: { SiteTitle, SiteMenu, SiteSign, SiteSearch },
   name: 'App',
   data () {
     return {

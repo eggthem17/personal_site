@@ -1,26 +1,26 @@
 <template>
-<div>
-  <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="title">
-            메뉴
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            Menu
-          </v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-action>
-          <v-btn color="secondary" @click="$store.commit('setEdit', !$store.state.editable)" icon>
-            <v-icon v-text="$store.state.editable ? 'mdi-eye' : 'mdi-pencil'"></v-icon>
-          </v-btn>
-        </v-list-item-action>
-        <v-list-item-action>
-          <v-btn @click="$emit('close')" icon>
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-list-item-action>
-      </v-list-item>
-      <v-divider></v-divider>
+  <div>
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title class="title">
+          메뉴
+        </v-list-item-title>
+        <v-list-item-subtitle>
+          Menu
+        </v-list-item-subtitle>
+      </v-list-item-content>
+      <v-list-item-action v-if="user && user.level === 0">
+        <v-btn color="secondary" @click="$store.commit('setEdit', !$store.state.editable)" icon>
+          <v-icon v-text="$store.state.editable ? 'mdi-eye' : 'mdi-pencil'"></v-icon>
+        </v-btn>
+      </v-list-item-action>
+      <v-list-item-action>
+        <v-btn @click="$emit('close')" icon>
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-list-item-action>
+    </v-list-item>
+    <v-divider></v-divider>
 
     <v-list nav>
       <v-list-group
@@ -36,8 +36,8 @@
               {{item.title}}
               <span v-if="$store.state.editable">
                 <v-btn icon color="secondary" @click="openDialogItem(i)"><v-icon>mdi-pencil</v-icon></v-btn>
-                <v-btn icon color="secondary" @click="moveItem(items, i, -1)" v-if = "i > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
-                <v-btn icon color="secondary" @click="moveItem(items, i, 1)" v-if = "i < items.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="moveItem(items, i, -1)" v-if="i > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="moveItem(items, i, 1)" v-if="i < items.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
                 <v-btn icon color="secondary" @click="removeItem(items,i)"><v-icon>mdi-delete</v-icon></v-btn>
               </span>
             </v-list-item-title>
@@ -55,8 +55,8 @@
               {{subItem.title}}
               <span v-if="$store.state.editable">
                 <v-btn icon color="secondary" @click="openDialogSubItem(i,j)"><v-icon>mdi-pencil</v-icon></v-btn>
-                <v-btn icon color="secondary" @click="moveItem(item.subItems, j, -1)" v-if = "j > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
-                <v-btn icon color="secondary" @click="moveItem(item.subItems, j, 1)" v-if = "j < item.subItems.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="moveItem(item.subItems, j, -1)" v-if="j > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
+                <v-btn icon color="secondary" @click="moveItem(item.subItems, j, 1)" v-if="j < item.subItems.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
                 <v-btn icon color="secondary" @click="removeItem(item.subItems,j)"><v-icon>mdi-delete</v-icon></v-btn>
               </span>
             </v-list-item-title>
@@ -65,7 +65,7 @@
             <v-btn icon :to="subItem.to" exact><v-icon>mdi-arrow-right-bold-circle-outline</v-icon></v-btn>
           </v-list-item-action>
         </v-list-item>
-          <v-list-item @click="openDialogSubItem(i,-1)" v-if="$store.state.editable">
+          <v-list-item @click="openDialogSubItem(i, -1)" v-if="$store.state.editable">
           <v-list-item-icon :class="$store.state.editable ? 'pl-4':''">
             <v-icon>mdi-plus</v-icon>
           </v-list-item-icon>
@@ -124,7 +124,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-</div>
+  </div>
 </template>
 
 <script>
@@ -145,6 +145,14 @@ export default {
         title: '',
         to: ''
       }
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user
+    },
+    fireUser () {
+      return this.$store.state.fireUser
     }
   },
   methods: {

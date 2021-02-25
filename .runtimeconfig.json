@@ -1,8 +1,13 @@
 {
   "admin": {
-    "db_url": "https://chillog.firebaseio.com",
     "region": "asia-northeast1",
+    "email": "eggthem17@gmail.com",
     "bucket_url": "chillog.appspot.com",
-    "email": "eggthem17@gmail.com"
+    "db_url": "https://chillog.firebaseio.com"
+  },
+  "algolia": {
+    "search_key": "78ae130859e6f6df287381011cd3feb1",
+    "app_id": "VUQYWK5VM0",
+    "api_key": "5974e4bfcd3f65a7222283a7a48463d6"
   }
 }

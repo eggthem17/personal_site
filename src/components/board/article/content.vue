@@ -17,11 +17,6 @@
           </v-btn>
         </v-toolbar-title>
         <v-spacer/>
-        <template v-if="(fireUser && fireUser.uid === article.uid) || (user && user.level === 0)">
-          <v-spacer/>
-          <v-btn @click="articleWrite" icon color="primary"><v-icon>mdi-pencil</v-icon></v-btn>
-          <v-btn @click="remove" icon color="error"><v-icon>mdi-delete</v-icon></v-btn>
-        </template>
         <v-btn @click="back" icon><v-icon>mdi-close</v-icon></v-btn>
       </v-toolbar>
       <v-divider/>
@@ -117,6 +112,8 @@ import DisplayUser from '@/components/display-user'
 import DisplayTitle from '@/components/display-title'
 import DisplayCount from '@/components/display-count'
 import addYoutubeIframe from '@/util/addYoutubeIframe'
+import setMeta from '@/util/setMeta'
+import getImageUrlFromMd from '@/util/getImageUrlFromMd'
 
 export default {
   components: { DisplayTime, DisplayComment, DisplayUser, DisplayTitle, DisplayCount },
@@ -184,31 +181,26 @@ export default {
         const item = doc.data()
         item.createdAt = item.createdAt.toDate()
         item.updatedAt = item.updatedAt.toDate()
-        if (!this.article || this.article.url !== item.url) this.fetch(item.url)
-        this.setMeta(item)
+        if (!this.article || this.article.url !== item.url) this.fetch(item)
         this.article = item
       }, console.error)
     },
-    setMeta (item) {
-      const descriptionNode = document.querySelector('head meta[name="description"]')
-      const ogTitleNode = document.querySelector('head meta[property="og:title"]')
-      const ogDescriptionNode = document.querySelector('head meta[property="og:description"]')
-      const ogImageNode = document.querySelector('head meta[property="og:image"]')
-
-      const title = item.title + ' : chillog'
-      const description = item.summary.substr(0, 80)
-      const image = item.images.length ? item.images[0].thumbUrl : '/logo.png'
-
-      document.title = title
-      descriptionNode.setAttribute('content', description)
-      ogTitleNode.setAttribute('content', title)
-      ogDescriptionNode.setAttribute('content', description)
-      ogImageNode.setAttribute('content', image)
-    },
-    async fetch (url) {
+    async fetch (item) {
       this.content = ''
-      const r = await axios.get(url)
+      const r = await axios.get(item.url)
       this.content = typeof r.data === 'string' ? r.data : r.data.toString()
+
+      let imgSrc = '/logo.png'
+      if (this.article.images.length) imgSrc = this.article.images[0].thumbUrl
+      else {
+        const src = getImageUrlFromMd(this.content)
+        if (src) imgSrc = src
+      }
+      setMeta({
+        title: item.title,
+        description: item.summary.substr(0, 80),
+        image: imgSrc
+      })
     },
     async articleWrite () {
       this.$router.push({ path: this.$route.path, query: { action: 'write' } })

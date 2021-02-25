@@ -50,7 +50,7 @@
             <v-card height="100%">
               <v-subheader>
                 <v-icon color="accent" left v-if="newCheck(item.updatedAt, 'days', 1)">mdi-fire</v-icon>
-                {{item.title}}
+                {{item.id}}
                 <v-spacer/>
                 <template v-if="user && user.level === 0">
                   <v-btn
@@ -163,6 +163,8 @@ import { last } from 'lodash'
 import DisplayTime from '@/components/display-time'
 import DisplayUser from '@/components/display-user'
 import newCheck from '@/util/newCheck'
+import setMeta from '@/util/setMeta'
+
 const LIMIT = 5
 
 export default {
@@ -216,6 +218,11 @@ export default {
       })
     },
     subscribe () {
+      setMeta({
+        title: '게시판 목록',
+        description: '게시판 목록입니다.',
+        image: '/logo.png'
+      })
       this.ref = this.$firebase.firestore()
         .collection('boards')
         .orderBy(this.order, this.sort).limit(LIMIT)
