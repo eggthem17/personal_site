@@ -8,6 +8,7 @@
         </v-alert>
     </v-container>
     <v-container v-else fluid class="">
+      <v-alert border="left" color="info" outlined>
         <v-card-title class="body-1">
           <v-icon>mdi-madnify</v-icon>
           <span class="font-weight-bold mr-1">{{text}}</span>
@@ -17,9 +18,15 @@
           <v-spacer/>
           <v-img contain max-width="130" src="https://res.cloudinary.com/hilnmyskv/image/upload/q_auto/v1595410010/Algolia_com_Website_assets/images/shared/algolia_logo/search-by-algolia-light-background.svg"></v-img>
         </v-card-title>
-        <template v-for="(hit) in result.hits">
-          <display-search-item :item="hit" :key="hit.objectId" />
+      </v-alert>
+        <template v-for="(item) in items">
+          <display-search-item :item="item" :key="item.objectId" />
         </template>
+        <v-list-item v-if="items.length < result.nbHits">
+          <v-btn @click="fetch" v-intersect="onIntersect" text color="secondary" block :loading="loading">
+            <v-icon>mdi-dots-virtical</v-icon>
+          </v-btn>
+        </v-list-item>
     </v-container>
 </template>
 <script>
@@ -32,36 +39,65 @@ export default {
   data () {
     return {
       loaded: false,
-      result: null
+      result: null,
+      loading: false,
+      items: [],
+      page: 0
     }
   },
   watch: {
     text () {
+      this.init()
       this.fetch()
     }
   },
   created () {
+    this.init()
     this.fetch()
   },
   destroyed () {
     if (this.text) this.$store.commit('setSearchText', '')
   },
   methods: {
-    async fetch () {
+    init () {
       if (this.text) this.$store.commit('setSearchText', this.text)
       setMeta({
         title: "검색 '" + this.text + "'",
         description: "검색 '" + this.text + "'",
         image: '/logo.png'
       })
+      this.page = 0
+      this.result = null
+      this.items = []
+    },
+    async fetch () {
+      if (this.loading) return
+      if (this.result && (this.result.nbHits === this.items.length)) return
       try {
-        if (this.text.length < 2) throw Error('최소 2글자 이상 입력하세요.')
-        this.loaded = false
-        this.result = await this.$index.search(this.text)
-        console.log(JSON.stringify(this.result, 2, null))
+        if (!this.page) this.loaded = false
+        this.loading = true
+        const r = await this.$index.search(this.text, {
+          page: this.page++,
+          hitsPerPage: 5
+        })
+        r.hits.forEach(hit => {
+          const exists = this.items.some(item => item.objectID === hit.objectID)
+          if (!exists) {
+            const item = hit
+            item.content = hit.content.substr(0, 300)
+            item.createdAt = new Date(hit.createAt)
+            item.updatedAt = new Date(hit.updatedAt)
+            this.items.push(item)
+          }
+        })
+        this.result = r
       } finally {
         this.loaded = true
+        this.loading = false
       }
+    },
+    onIntersect (entries, observer, isIntersecting) {
+      if (isIntersecting) this.fetch()
     }
   }
 }
