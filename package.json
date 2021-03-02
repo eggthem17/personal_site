@@ -1,6 +1,7 @@
 {
-  "name": "vf2",
-  "version": "0.1.0",
+  "name": "chillog",
+  "description": "걔랑계란's Chillog",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

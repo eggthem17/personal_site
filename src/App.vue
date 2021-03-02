@@ -31,31 +31,21 @@ export default {
       site: {
         menu: [
           {
-            title: 'home',
+            title: '로드중...',
             icon: 'mdi-home',
             subItems: [
               {
                 title: 'Dashboard',
-                to: '/'
-              },
-              {
-                title: 'about',
-                to: '/about'
+                to: '/',
+                createdAt: new Date('2000-01-01'),
+                level: 5
               }
-            ]
-          },
-          {
-            title: 'about',
-            active: true,
-            icon: 'mdi-home',
-            subItems: [
-              {
-                title: 'xxx',
-                to: '/xxx'
-              }
-            ]
-          }],
-        title: "걔랑계란's Chillog"
+            ],
+            createdAt: new Date('2000-01-01'),
+            level: 5
+          }
+        ],
+        title: '로드중...'
       }
     }
   },
