@@ -14,7 +14,7 @@
       </template>
       <list-gallery v-else :items="items" :boardId="boardId" :category="category"/>
     <v-list-item v-if="lastDoc && items.length < board.count">
-      <v-btn @click="more" v-intersect="onIntersect" text color="primary" block :loading="loading">
+      <v-btn @click="more" v-intersect="onIntersect" text color="accent" block :loading="loading">
         <v-icon>mdi-dots-horizontal</v-icon>더보기
       </v-btn>
     </v-list-item>

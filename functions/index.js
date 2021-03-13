@@ -95,13 +95,13 @@ exports.onCreateBoardArticle = functions.region(region).firestore.document('boar
   const doc = snap.data()
 
   let content = doc.summary
-  if (doc.summary && doc.summary.length >= 300) {
+  if (doc.summary && doc.summary.length >= 3000) {
     const ps = []
     ps.push('boards')
     ps.push(context.params.bid)
     ps.push(context.params.aid + '-' + doc.uid + '.md')
     const bf = await admin.storage().bucket().file(ps.join('/')).download().catch(e => console.error('storage download err: ' + e.message))
-    content = bf.toString().substr(0, 9000)
+    content = bf.toString().substr(0, 5000)
   }
 
   const algoliaDoc = {
@@ -213,13 +213,13 @@ exports.onUpdateBoardArticle = functions.region(region).firestore.document('boar
   if (!isEqual(beforeDoc.tags, doc.tags)) algoliaDoc.tags = doc.tags
 
   let content = doc.summary
-  if (doc.summary && doc.summary.length >= 300) {
+  if (doc.summary && doc.summary.length >= 3000) {
     const ps = []
     ps.push('boards')
     ps.push(context.params.bid)
     ps.push(context.params.aid + '-' + doc.uid + 'md')
     const bf = await admin.storage().bucket().file(ps.join('/')).download().catch(e => console.error('storages download err: ' + e.message))
-    content = bf.toString().substr(0 ,9000)
+    content = bf.toString().substr(0 ,5000)
   }
   if (beforeDoc.summary !== content) algoliaDoc.content = content
 
@@ -314,6 +314,7 @@ exports.seo = functions.https.onRequest(async (req, res) => {
   const mainCollection = pluralize(ps.shift())
   const board = ps.shift()
   const article = ps.shift()
+  if (!article) return res.send(html)
 
   const doc = await db.collection(mainCollection).doc(board).collection('articles').doc(article).get()
 
@@ -328,7 +329,7 @@ exports.seo = functions.https.onRequest(async (req, res) => {
   const ogImageNode = child.childNodes[4]
 
   const title = item.title + ' : chillog'
-  const description = item.summary.substr(0, 80)
+  const description = item.summary.substr(0, 80).replace(/(<([^>]+)>)/gi, '')
 
   const getImageUrlFromMd = (md) => {
     const ds = md.split('\n')

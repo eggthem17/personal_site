@@ -10,7 +10,7 @@
                     </v-card-subtitle>
                     <template v-if="!item.important">
                         <v-card-text>
-                            <viewer v-if="item.summary" :initialValue="item.summary" @load="onViewerLoad" :options="tuiOptions"></viewer>
+                            <viewer class="tui-dark" v-if="item.summary" :initialValue="item.summary" @load="onViewerLoad" :options="tuiOptions"></viewer>
                             <v-container v-else>
                                 <v-row justify="center" align="center">
                                     <v-progress-circular indeterminate></v-progress-circular>
@@ -18,21 +18,15 @@
                             </v-container>
                         </v-card-text>
                         <v-card-actions class="d-flex justify-center">
-                            <v-btn text color="primary">
-                                <v-icon left>mdi-dots-horizontal</v-icon>더보기
-                            </v-btn>
-                            <v-btn
-                                v-if="fireUser && fireUser.uid === item.uid"
-                                :to="`${boardId}/${item.id}?action=write`"
-                                text color="primary">
-                                <v-icon left>mdi-pencil</v-icon>수정하기
+                            <v-btn text color="default" class="mb-4">
+                                <v-icon left>mdi-dots-vertical</v-icon>
                             </v-btn>
                         </v-card-actions>
                     </template>
                 </v-card>
                 <template v-if="!item.important">
                     <v-card-actions>
-                        <span class="font-italic caption"><display-time :time="item.createdAt"></display-time></span>
+                        <span class="font-weight-black caption ml-3"><display-time :time="item.createdAt"></display-time></span>
                         <v-spacer/>
                         <display-user :user="item.user"></display-user>
                     </v-card-actions>
@@ -43,17 +37,18 @@
                     <v-card-text>
                         <v-row justify="start" align="center" class="px-4">
                             <v-btn
-                                color="primary"
+                                color="info"
                                 depressed
                                 small
                                 outlined
-                                class="mr-4 mb-2"
+                                class="mr-4"
                                 :to="`${$route.path}?category=${item.category}`"
+                                width="70"
                             >
                             {{item.category}}
                                 <v-icon right>mdi-menu-right</v-icon>
                             </v-btn>
-                            <v-chip small label outlined color="accent" class="mr-2 mb-2" v-for="tag in item.tags" :key="tag" v-text="tag"></v-chip>
+                            <v-chip small label outlined color="default" class="mr-2" v-for="tag in item.tags" :key="tag" v-text="tag" width="70"></v-chip>
                         </v-row>
                     </v-card-text>
                 </template>

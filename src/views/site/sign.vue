@@ -8,7 +8,7 @@
       <v-card-title>SignIn</v-card-title>
       <v-divider/>
       <v-card-actions>
-        <v-btn color="orange" dark @click="signInWithGoogle" block><v-icon left>mdi-google</v-icon></v-btn>
+        <v-btn color="info" dark @click="signInWithGoogle" block><v-icon left>mdi-google</v-icon></v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>
@@ -24,7 +24,7 @@
       <v-card-title>Account Information</v-card-title>
       <v-divider/>
       <v-card-actions>
-        <v-btn dark @click="signOut" block>SignOut</v-btn>
+        <v-btn color="accent" dark @click="signOut" block>SignOut</v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>

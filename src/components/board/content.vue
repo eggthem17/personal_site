@@ -10,7 +10,6 @@
   <v-container v-else fluid :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
     <v-card outlined :tile="$vuetify.breakpoint.xs">
       <v-toolbar color="transparent" dense flat>
-        <!-- <v-chip color="primary" label class="mr-4">{{board.category}}</v-chip> -->
         <v-sheet width="100" class="mr-4">
           <v-select :value="getCategory" :items="board.categories" @change="changeCategory" dense outlined single-line flat hide-details></v-select>
         </v-sheet>
@@ -73,7 +72,7 @@
               <v-list-item-title>
                 작성일
               </v-list-item-title>
-              <v-list-item-subtitle class="font-italic">
+              <v-list-item-subtitle class="font-weight-black">
                 <display-time :time="board.createdAt"></display-time>
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -83,7 +82,7 @@
               <v-list-item-title>
                 수정일
               </v-list-item-title>
-              <v-list-item-subtitle class="font-italic">
+              <v-list-item-subtitle class="font-weight-black">
                 <display-time :time="board.updatedAt"></display-time>
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -93,7 +92,7 @@
               <v-list-item-title>
                 게시물수
               </v-list-item-title>
-              <v-list-item-subtitle class="font-italic">
+              <v-list-item-subtitle class="font-weight-black">
                 {{board.count}}
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -104,7 +103,7 @@
                 등록된 종류
               </v-list-item-title>
               <v-list-item-subtitle class="white-space">
-                <v-chip color="accent" label small v-for="item in board.categories" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
+                <v-chip color="default" outlined label small v-for="item in board.categories" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -114,7 +113,7 @@
                 등록된 태그
               </v-list-item-title>
               <v-list-item-subtitle class="white-space">
-                <v-chip color="accent" label small outlined v-for="item in board.tags" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
+                <v-chip color="info" label small outlined v-for="item in board.tags" :key="item" class="mt-2 mr-2" v-text="item"></v-chip>
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -127,10 +126,6 @@
             </v-list-item-content>
           </v-list-item>
           <v-divider/>
-          <v-card-actions>
-            <v-spacer/>
-            <v-btn text @click="dialog=false"><v-icon left>mdi-close</v-icon>닫기</v-btn>
-          </v-card-actions>
         </v-card>
       </v-dialog>
     </v-card>

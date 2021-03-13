@@ -5,7 +5,7 @@
       <v-spacer/>
     </v-card-subtitle>
     <v-card-text>
-      <viewer v-if="item.content" :initialValue="item.content" @load="onViewerLoad" :options="tuiOptions"></viewer>
+      <viewer class="tui-dark" v-if="item.content" :initialValue="item.content" @load="onViewerLoad" :options="tuiOptions"></viewer>
       <v-container v-else>
         <v-row justify="center" align="center">
           <v-progress-circular indeterminate></v-progress-circular>
@@ -18,7 +18,7 @@
       </v-btn>
     </v-card-actions>
     <v-card-actions>
-      <span class="font-italic caption"><display-time :time="new Date(item.createdAt)" /></span>
+      <span class="font-weight-black caption"><display-time :time="new Date(item.createdAt)" /></span>
       <v-spacer/>
       <display-user :user="{email: item.email, displayName: item.displayName}" size="small"/>
     </v-card-actions>

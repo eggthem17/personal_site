@@ -12,13 +12,14 @@ Vue.use(Vuetify, {
 })
 
 const theme = {
+  dark: true,
   themes: {
-    light: {
+    dark: {
+      background: '#161411', // App.vue/v-app/backgrund-color
       primary: '#3B3B48', // graphite
-      secondary: '#716E6A', // grey
-      accent: '#F29829', // orange
+      secondary: '#4A4843', // beluga_grey
+      accent: '#D94436', // red
       info: '#F29829', // orange
-      success: '#D94436', // red
       default: '#F2F2F2' // white
     }
   }

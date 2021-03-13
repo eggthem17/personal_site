@@ -9,9 +9,9 @@
   </v-container>
   <v-container v-else fluid :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
     <v-card outlined :tile="$vuetify.breakpoint.xs">
-      <v-toolbar color="transparent" dense flat>
+      <v-toolbar color="secondary" dense flat>
         <v-toolbar-title>
-          <v-btn color="accent" depressed small class="mr-4" outlined @click="goCategory">
+          <v-btn color="default" depressed small class="mr-4" outlined @click="goCategory">
             {{article.category}}
             <v-icon v-if="!category" right>mdi-menu-right</v-icon>
           </v-btn>
@@ -24,7 +24,7 @@
         <display-title :item="article"/>
       </v-card-subtitle>
       <v-card-text>
-        <viewer v-if="content" :initialValue="content" @load="onViewerLoad" :options="tuiOptions"></viewer>
+        <viewer class="tui-dark" v-if="content" :initialValue="content" @load="onViewerLoad" :options="tuiOptions"></viewer>
         <v-container v-else>
           <v-row justify="center" align="center">
             <v-progress-circular indeterminate></v-progress-circular>
@@ -33,19 +33,19 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer/>
-        <span class="font-italic caption">
+        <span class="font-weight-black caption">
           작성일: <display-time :time="article.createdAt"></display-time>
         </span>
       </v-card-actions>
       <v-card-actions>
         <v-spacer/>
-        <span class="font-italic caption">
+        <span class="font-weight-black caption">
           수정일: <display-time :time="article.updatedAt"></display-time>
         </span>
       </v-card-actions>
       <v-card-actions>
         <v-spacer/>
-        <span class="font-italic caption mr-4">
+        <span class="font-weight-black caption mr-4">
           작성자:
         </span>
         <display-user :user="article.user"></display-user>
@@ -56,8 +56,8 @@
       </v-card-actions>
       <v-card-actions>
         <v-spacer/>
-        <v-btn rounded @click="like" :color="liked ? 'accent' : ''">
-          <v-icon left>mdi-thumb-up-outline</v-icon>
+        <v-btn rounded @click="like" :color="liked ? 'info' : ''">
+          <v-icon left>mdi-heart</v-icon>
           좋아요
           <!-- <span class="body-2">{{article.likeCount}}</span> -->
         </v-btn>
@@ -65,37 +65,37 @@
       <v-card-text>
         <v-row justify="start" align="center" class="px-4">
           <v-btn
-            color="primary"
+            color="info"
             depressed
             small
             outlined
-            class="mr-4 mb-2"
+            class="mr-4"
             @click="goCategory"
           >
             {{article.category}}
             <v-icon right>mdi-menu-right</v-icon>
           </v-btn>
-          <v-chip small label outlined color="accent" class="mr-2 mb-2" v-for="tag in article.tags" :key="tag" v-text="tag"></v-chip>
+          <v-chip small label outlined color="default" class="mr-2" v-for="tag in article.tags" :key="tag" v-text="tag"></v-chip>
         </v-row>
       </v-card-text>
       <v-card-actions v-if="(fireUser && fireUser.uid === article.uid) || (user && user.level === 0)">
         <v-spacer/>
-        <v-btn @click="articleWrite" text color="primary"><v-icon left>mdi-pencil</v-icon>수정</v-btn>
-        <v-btn @click="remove" text color="error"><v-icon left>mdi-delete</v-icon>삭제</v-btn>
+        <v-btn @click="articleWrite" text color="default"><v-icon left>mdi-pencil</v-icon>수정</v-btn>
+        <v-btn @click="remove" text color="accent"><v-icon left>mdi-delete</v-icon>삭제</v-btn>
       </v-card-actions>
       <v-divider/>
       <v-card-actions class="py-0">
         <v-row no-gutters>
           <v-col cols="4">
-            <v-btn block text color="primary" @click="go(-1)"><v-icon left>mdi-menu-left</v-icon> 다음</v-btn>
+            <v-btn block text color="default" @click="go(-1)"><v-icon left>mdi-menu-left</v-icon> 다음</v-btn>
           </v-col>
           <v-col cols="4" class="d-flex">
             <v-divider vertical></v-divider>
-            <v-btn block text color="primary" @click="back"><v-icon left>mdi-format-list-bulleted-square</v-icon> 목록</v-btn>
+            <v-btn block text color="default" @click="back"><v-icon left>mdi-format-list-bulleted-square</v-icon> 목록</v-btn>
             <v-divider vertical></v-divider>
           </v-col>
           <v-col cols="4">
-            <v-btn block text color="primary" @click="go(1)">이전<v-icon right>mdi-menu-right</v-icon></v-btn>
+            <v-btn block text color="default" @click="go(1)">이전<v-icon right>mdi-menu-right</v-icon></v-btn>
           </v-col>
         </v-row>
       </v-card-actions>

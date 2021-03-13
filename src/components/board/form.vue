@@ -37,7 +37,7 @@
           <v-card outlined>
             <v-subheader>종류</v-subheader>
             <v-card-text>
-              <v-chip color="accent" outlined label small v-for="(item, i) in form.categories" :key="i" class="mr-2 mb-2">
+              <v-chip color="default" outlined label small v-for="(item, i) in form.categories" :key="i" class="mr-2 mb-3">
                 {{item}}
                 <v-icon small right @click="removeCategory(item,i)">mdi-close</v-icon>
               </v-chip>
@@ -53,9 +53,9 @@
           <v-card outlined>
             <v-subheader>태그</v-subheader>
             <v-card-text>
-              <v-chip color="accent" label small outlined v-for="(item,i) in form.tags" :key="i" class="mr-2 mb-2">
+              <v-chip color="default" label small outlined v-for="(item,i) in form.tags" :key="i" class="mr-2 mb-3">
                 {{item}}
-                <v-icon small right @click="removeYag(item, i)">mdi-close</v-icon>
+                <v-icon small right @click="removeTag(item, i)">mdi-close</v-icon>
               </v-chip>
             </v-card-text>
             <v-card-actions>
@@ -90,7 +90,7 @@ export default {
       category: '',
       tag: '',
       loaded: false,
-      types: ['일반', '갤러리']
+      types: ['default', 'gallery']
     }
   },
   computed: {

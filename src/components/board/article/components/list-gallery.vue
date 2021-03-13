@@ -3,28 +3,27 @@
     <v-row dense>
       <template v-for="item in items">
         <v-col cols="6" sm="3" md="2" :key="item.id">
-          <v-card color="" height="100%" :to="toPath(item)">
+          <v-card outlined color="" height="100%" :to="toPath(item)">
             <v-img
               :src="isGif(item.images[0].id) ? item.images[0].url : item.images[0].thumbUrl"
               :aspect-ratio="1"
               class="align-end"
             >
-
               <v-card-actions class="mt-auto">
                 <v-spacer/>
                 <v-btn
                   small dark
                   color="primary"
-                  @click.native.stop="like(item)"
+                  pointer-events="none"
                 ><v-icon left
-                :color="liked(item) ? 'success': ''"
+                :color="liked(item) ? 'info': ''"
                 >mdi-heart</v-icon>
                   <span>{{item.likeCount > 9 ? '9+' : item.likeCount}}</span>
                 </v-btn>
               </v-card-actions>
             </v-img>
-            <v-card-subtitle class="text-truncate align-center">
-              <v-icon small color="error" left v-if="newCheck(item.updatedAt, 'hours', 1)">mdi-fire</v-icon>
+            <v-card-subtitle class="text--primary align-center">
+              <v-icon small color="accent" left v-if="newCheck(item.updatedAt, 'hours', 1)">mdi-fire</v-icon>
               <span>{{item.title}}</span>
             </v-card-subtitle>
           </v-card>

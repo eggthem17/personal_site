@@ -6,12 +6,13 @@
           <v-list-item-subtitle class="d-flex align-center text--primary body-1">
             <v-btn
               v-if="!$vuetify.breakpoint.xs && category != item.category"
-              color="accent"
+              color="info"
               depressed
               small
               outlined
               class="mr-4"
               :to="`${$route.path}?category=${item.category}`"
+              width="70"
             >
               {{item.category}}
               <v-icon right>mdi-menu-right</v-icon>
@@ -22,7 +23,7 @@
         <v-list-item-subtitle class="d-flex justify-space-between align-center">
           <span class="font-italic caption"><display-time :time="item.createdAt"></display-time></span>
           <v-spacer/>
-          <v-btn icon v-if="fireUser && fireUser.uid === item.uid" :to="`${boardId}/${item.id}?action=write`"><v-icon>mdi-pencil</v-icon></v-btn>
+          <!-- <v-btn icon v-if="fireUser && fireUser.uid === item.uid" :to="`${boardId}/${item.id}?action=write`"><v-icon>mdi-pencil</v-icon></v-btn>-->
           <display-user :user="item.user" :size="'small'"></display-user>
         </v-list-item-subtitle>
         </v-list-item-content>

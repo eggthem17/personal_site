@@ -1,13 +1,13 @@
 <template>
-  <v-app>
+  <v-app style="background-color:#161411;">
     <v-app-bar app color="secondary" dark :clipped-left="$vuetify.breakpoint.lgAndUp">
-    <v-app-bar-nav-icon app color="orange" @click="drawer = !drawer"/>
+    <v-app-bar-nav-icon app color="info" @click="drawer = !drawer"/>
     <site-title :title="site.title"></site-title>
     <v-spacer/>
     <site-search/>
     <site-sign></site-sign>
     </v-app-bar>
-    <v-navigation-drawer app v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" :width="$store.state.editable ? 380 : null">
+    <v-navigation-drawer color="secondary" app v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" :width="$store.state.editable ? 380 : null">
       <site-menu :items="site.menu" @close="drawer=false"></site-menu>
     </v-navigation-drawer>
     <v-main>
@@ -71,5 +71,11 @@ export default {
 <style>
 .white-space{
   white-space: pre-wrap;
+}
+.tui-dark h1, .tui-dark h2, .tui-dark h3, .tui-dark h4, .tui-dark h5, .tui-dark h6, .tui-dark li, .tui-dark ol, .tui-dark p, .tui-dark pre, .tui-dark table, .tui-dark ul {
+  color: var(--v-primary-base) !important
+}
+.tui-dark code, .tui-dark span {
+  color: #323232 !important
 }
 </style>

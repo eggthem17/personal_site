@@ -20,7 +20,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-if="user && user.level === 0">
-            <v-card height="100%">
+            <v-card height="100%" outlined>
               <v-subheader>
                 새로운 게시판 추가
               </v-subheader>
@@ -47,7 +47,7 @@
             </v-card>
           </v-col>
           <v-col cols="12" sm="6" md="4" lg="3" xl="2" v-for="(item) in items" :key="item.id">
-            <v-card height="100%">
+            <v-card height="100%" outlined>
               <v-subheader>
                 <v-icon color="accent" left v-if="newCheck(item.updatedAt, 'days', 1)">mdi-fire</v-icon>
                 {{item.id}}
@@ -60,7 +60,8 @@
                   </v-btn>
                   <v-btn
                     icon
-                    @click="remove(item)">
+                    @click="remove(item)"
+                    color="accent">
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </template>
@@ -84,7 +85,7 @@
                   <v-list-item-title>
                     작성일
                   </v-list-item-title>
-                  <v-list-item-subtitle class="font-italic">
+                  <v-list-item-subtitle class="font-weight-black">
                     <display-time :time="item.createdAt"></display-time>
                   </v-list-item-subtitle>
                 </v-list-item-content>
@@ -94,7 +95,7 @@
                   <v-list-item-title>
                     수정일
                   </v-list-item-title>
-                  <v-list-item-subtitle class="font-italic">
+                  <v-list-item-subtitle class="font-weight-black">
                     <display-time :time="item.updatedAt"></display-time>
                   </v-list-item-subtitle>
                 </v-list-item-content>
@@ -104,7 +105,7 @@
                   <v-list-item-title>
                     게시물수
                   </v-list-item-title>
-                  <v-list-item-subtitle class="font-italic">
+                  <v-list-item-subtitle class="font-weight-black">
                     {{item.count}}
                   </v-list-item-subtitle>
                 </v-list-item-content>

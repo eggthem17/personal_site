@@ -19,9 +19,9 @@
       <v-divider :key="i" v-if="i > 0 && !replyDepth(item)"></v-divider>
       <v-list-item :key="item.id">
         <v-list-item-content>
-          <v-list-item-subtitle v-if="!item.edit" class="black--text white-space">
-            <v-icon color="primary" v-for="i in replyDepth(item)" :key="i">mdi-subdirectory-arrow-right</v-icon>
-            <v-icon color="accent" left v-if="newCheck(item.updatedAt, 'minutes', 10)">mdi-fire</v-icon> {{item.comment}}
+          <v-list-item-subtitle v-if="!item.edit" class="white--text white-space">
+            <v-icon color="default" v-for="i in replyDepth(item)" :key="i">mdi-subdirectory-arrow-right</v-icon>
+            <v-icon color="accent" left v-if="newCheck(item.updatedAt, 'hours', 12)">mdi-fire</v-icon> {{item.comment}}
           </v-list-item-subtitle>
           <v-list-item-subtitle v-else>
             <v-textarea
@@ -38,7 +38,7 @@
             ></v-textarea>
           </v-list-item-subtitle>
           <v-list-item-subtitle class="d-flex justify-end align-center">
-            <span class="font-italic caption mr-4"><display-time :time="item.createdAt"></display-time></span>
+            <span class="font-weight-black caption mr-4"><display-time :time="item.createdAt"></display-time></span>
             <display-user :user="item.user" size="small"></display-user>
           </v-list-item-subtitle>
           <v-list-item-title class="d-flex justify-end">
@@ -48,24 +48,24 @@
               :color="item.edit ? 'warning' : 'primary'"
               text
             >
-              <v-icon left>mdi-pencil</v-icon>
+              <v-icon left color="default">mdi-pencil</v-icon>
             </v-btn>
             <v-btn v-if="fireUser && !replyDepth(item)" @click="replyToggle(item)" :color="item.replyEdit ? 'warning' : 'primary'" text>
-              <v-icon left>mdi-comment-multiple</v-icon>
+              <v-icon left color="default">mdi-comment-multiple</v-icon>
             </v-btn>
             <v-btn v-if="fireUser && replyDepth(item) === 1" @click="replyToggle(item)" :color="item.replyEdit ? 'warning' : 'primary'" text>
-              <v-icon left>mdi-comment-multiple</v-icon>
+              <v-icon left color="default">mdi-comment-multiple</v-icon>
             </v-btn>
             <v-btn @click="like(item)" text>
-              <v-icon left :color="liked(item) ? 'accent': ''">mdi-thumb-up</v-icon>
+              <v-icon left :color="liked(item) ? 'info': ''">mdi-heart</v-icon>
               <span>{{item.likeCount}}</span>
             </v-btn>
-            <v-btn color="error" icon @click="remove(item)" v-if="(fireUser && fireUser.uid === item.uid) || (user && user.level === 0)">
+            <v-btn color="accent" icon @click="remove(item)" v-if="(fireUser && fireUser.uid === item.uid) || (user && user.level === 0)">
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </v-list-item-title>
           <v-list-item-subtitle v-if="item.replyEdit">
-            <v-textarea v-model ="item.replyComment" @click:append="saveReply(item)" outlined label="대댓글 작성" placeholder="" append-icon="mdi-comment-multiple" hide hide-details auto-grow rows="1" clearable class="mt-2" />
+            <v-textarea v-model ="item.replyComment" @click:append="saveReply(item)" outlined label="대댓글 작성" placeholder="" append-icon="mdi-comment-multiple" hide hide-details auto-grow rows="1" clearable class="mt-2" color="info" />
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -79,7 +79,7 @@
     <template v-else>
       <v-divider/>
       <v-card-title>
-        <v-textarea v-model="comment" outlined label="댓글 작성" placeholder="" append-icon="mdi-comment-plus" @click:append="save" hide-details auto-grow rows="1" clearable />
+        <v-textarea v-model="comment" outlined label="댓글 작성" placeholder="" append-icon="mdi-comment-plus" @click:append="save" hide-details auto-grow rows="1" clearable color="info"/>
       </v-card-title>
     </template>
   </v-card>

@@ -11,7 +11,7 @@
       <span class="body-2" v-else>99+</span>
     </div>
     <div class="d-flex justify-space-between align-center">
-      <v-icon left :color="liked(item) ? 'success' : ''">mdi-thumb-up</v-icon>
+      <v-icon left :color="liked(item) ? 'info' : ''">mdi-heart</v-icon>
       <span class="body-2" v-if="item.likeCount < 100">{{item.likeCount}}</span>
       <span class="body-2" v-else>99+</span>
     </div>
@@ -28,7 +28,7 @@
       <span class="body-2" v-else>99+</span>
     </div>
     <div class="d-flex align-center">
-      <v-icon left :color="liked(item) ? 'info' : ''">mdi-thumb-up</v-icon>
+      <v-icon left :color="liked(item) ? 'info' : ''">mdi-heart</v-icon>
       <span class="body-2" v-if="item.likeCount < 100">{{item.likeCount}}</span>
       <span class="body-2" v-else>99+</span>
     </div>

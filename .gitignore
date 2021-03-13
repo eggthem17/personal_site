@@ -26,3 +26,8 @@ yarn-error.log*
 firebaseConfig.js
 .firebase/
 public/logo.png
+
+#user variable
+siteConfig.js
+public/logo.png
+public/favicon.ico
