@@ -47,13 +47,13 @@ make file on root
 **./firebaseConfig.js**  
 ```javascript
 export default {
-  apiKey: "AIzaSyCMJGWDiuiV91DQOqscCXiVTf2iVNHQXXX",
+  apiKey: "apiKey",
   authDomain: "xxx-site.firebaseapp.com",
   databaseURL: "https://xxx-site.firebaseio.com",
   projectId: "xxx-site",
   storageBucket: "xxx-site.appspot.com",
-  messagingSenderId: "654047601333",
-  appId: "1:654047601222:web:8fcdc5ea4091ec77064111",
-  measurementId: "G-Z05F3DT444"
+  messagingSenderId: "messagingSenderId",
+  appId: "appId",
+  measurementId: "measurementId"
 }
 ```
