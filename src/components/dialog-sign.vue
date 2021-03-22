@@ -50,10 +50,10 @@
           </template>
           <v-divider/>
           <template v-if="modeIn">
-            <v-subheader>Email Login<v-spacer/></v-subheader>
+            <v-subheader>Email Login</v-subheader>
             <v-card-text>
-              <v-text-field v-model="email" outlined label="email" autocomplete="email" required />
-              <v-text-field v-model="password" type="password" outlined label="password" hide-details required @keypress.native.enter="signInWithEmail"></v-text-field>
+              <v-text-field v-model="email" outlined label="email" hide-details autocomplete="email" required color="info"/>
+              <v-text-field v-model="password" type="password" outlined label="password" hide-details required @keypress.native.enter="signInWithEmail" color="info"></v-text-field>
             </v-card-text>
             <v-card-actions>
               <v-btn block color="" @click="signInWithEmail">
@@ -64,9 +64,9 @@
           <template v-else>
             <v-subheader>Signin with email</v-subheader>
             <v-card-text>
-              <v-text-field v-model="email" outlined label="email" hide-details type="email" autocomplete="email" required />
-              <v-text-field v-model="displayName" outlined label="NickName" hide-details type="text" required />
-              <v-text-field v-model="password" type="password" outlined label="password" hide-details required @keypress.native.enter="signUpWithEmail"></v-text-field>
+              <v-text-field v-model="email" outlined label="email" hide-details type="email" autocomplete="email" required color="info"/>
+              <v-text-field v-model="displayName" outlined label="NickName" hide-details type="text" required color="info" />
+              <v-text-field v-model="password" type="password" outlined label="password" hide-details required @keypress.native.enter="signUpWithEmail" color="info"></v-text-field>
             </v-card-text>
             <v-card-actions>
               <v-btn block color="" @click="signUpWithEmail">
