@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-list-item>
-      <v-list-item-icon tile>
-        <v-img contain :max-height="50" :max-width="50" :src="site.image"></v-img>
-      </v-list-item-icon>
+      <v-list-item-avatar>
+        <v-img contain :src="site.image"></v-img>
+      </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title class="title">
           {{site.title}}
@@ -164,6 +164,7 @@
 import { version } from '../../../package.json'
 import DisplayTime from '@/components/display-time'
 import newCheck from '@/util/newCheck'
+import constants from '@/util/constants'
 
 export default {
   components: { DisplayTime },
@@ -194,11 +195,7 @@ export default {
         createdAt: new Date().getTime(),
         level: 5
       },
-      levels: [
-        { text: 'Master', value: 0 },
-        { text: 'User', value: 4 },
-        { text: 'Guest', value: 5 }
-      ]
+      levels: constants.levels
     }
   },
   computed: {
