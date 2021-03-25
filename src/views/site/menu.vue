@@ -42,8 +42,8 @@
             </v-list-item-title>
             <v-list-item-subtitle v-if="$store.state.editable">
               <v-btn icon color="default" @click="openDialogItem(i)"><v-icon>mdi-pencil</v-icon></v-btn>
-              <v-btn icon color="secondary" @click="moveItem(items, i, -1)" v-if="i > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
-              <v-btn icon color="secondary" @click="moveItem(items, i, 1)" v-if="i < items.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
+              <v-btn icon color="default" @click="moveItem(items, i, -1)" v-if="i > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
+              <v-btn icon color="default" @click="moveItem(items, i, 1)" v-if="i < items.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
               <v-btn icon color="accent" @click="removeItem(items,i)"><v-icon>mdi-delete</v-icon></v-btn>
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -57,13 +57,13 @@
         >
           <v-list-item-content>
             <v-list-item-title :class="$store.state.editable ? 'pl-15':''" class="d-flex align-center">
-              <span>{{subItem.title}}</span>
+              <span class="pr-2">{{subItem.title}}</span>
               <v-icon color="accent" right v-if="newCheck(new Date(subItem.createdAt), 'days', 1)">mdi-fire</v-icon>
             </v-list-item-title>
             <v-list-item-subtitle v-if="$store.state.editable" class="pl-14">
               <v-btn icon color="default" @click="openDialogSubItem(i,j)"><v-icon>mdi-pencil</v-icon></v-btn>
-              <v-btn icon color="secondary" @click="moveItem(item.subItems, j, -1)" v-if="j > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
-              <v-btn icon color="secondary" @click="moveItem(item.subItems, j, 1)" v-if="j < item.subItems.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
+              <v-btn icon color="default" @click="moveItem(item.subItems, j, -1)" v-if="j > 0"><v-icon>mdi-chevron-double-up</v-icon></v-btn>
+              <v-btn icon color="default" @click="moveItem(item.subItems, j, 1)" v-if="j < item.subItems.length - 1"><v-icon>mdi-chevron-double-down</v-icon></v-btn>
               <v-btn icon color="accent" @click="removeItem(item.subItems,j)"><v-icon>mdi-delete</v-icon></v-btn>
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -105,6 +105,7 @@
             </v-col>
             <v-col cols="10">
               <v-text-field
+                color="info"
                 v-model="formItem.icon"
                 label="mdi icon"
                 outlined
@@ -114,10 +115,10 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" lg="4">
-              <v-select v-model="formItem.level" :items="levels" label="권한" outlined hide-details prepend-inner-icon="mdi-eye"></v-select>
+              <v-select color="info" v-model="formItem.level" :items="levels" label="권한" outlined hide-details prepend-inner-icon="mdi-eye"></v-select>
             </v-col>
             <v-col cols="12" sm="6" lg="8">
-              <v-text-field v-model="formItem.title" label="아이템 이름" outlined hide-details clearable></v-text-field>
+              <v-text-field color="info" v-model="formItem.title" label="아이템 이름" outlined hide-details clearable></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -140,13 +141,13 @@
         <v-card-text>
           <v-row>
             <v-col cols="12" sm="6" lg="4">
-              <v-select v-model="formSubItem.level" :items="levels" label="권한" outlined hide-details prepend-inner-icon="mdi-eye"></v-select>
+              <v-select color="info" v-model="formSubItem.level" :items="levels" label="권한" outlined hide-details prepend-inner-icon="mdi-eye"></v-select>
             </v-col>
             <v-col cols="12" sm="6" lg="4">
-              <v-text-field v-model="formSubItem.title" label="메뉴 이름" outlined required clearable hide-details></v-text-field>
+              <v-text-field color="info" v-model="formSubItem.title" label="메뉴 이름" outlined required clearable hide-details></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="formSubItem.to" label="경로" outlined required clearable hide-details></v-text-field>
+              <v-text-field color="info" v-model="formSubItem.to" label="경로" outlined required clearable hide-details></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>

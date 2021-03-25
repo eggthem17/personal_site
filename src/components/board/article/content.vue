@@ -71,11 +71,12 @@
             outlined
             class="mr-4"
             @click="goCategory"
+            width="100"
           >
             {{article.category}}
             <v-icon right>mdi-menu-right</v-icon>
           </v-btn>
-          <v-chip small label outlined color="default" class="mr-2" v-for="tag in article.tags" :key="tag" v-text="tag"></v-chip>
+          <v-chip small label outlined color="default" class="mt-2 mr-2 mb-2" v-for="tag in article.tags" :key="tag" v-text="tag"></v-chip>
         </v-row>
       </v-card-text>
       <v-card-actions v-if="(fireUser && fireUser.uid === article.uid) || (user && user.level === 0)">

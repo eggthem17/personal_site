@@ -43,12 +43,12 @@
                                 outlined
                                 class="mr-4"
                                 :to="`${$route.path}?category=${item.category}`"
-                                width="70"
+                                width="100"
                             >
                             {{item.category}}
                                 <v-icon right>mdi-menu-right</v-icon>
                             </v-btn>
-                            <v-chip small label outlined color="default" class="mr-2" v-for="tag in item.tags" :key="tag" v-text="tag" width="70"></v-chip>
+                            <v-chip small label outlined color="default" class="mt-2 mr-2 mb-2" v-for="tag in item.tags" :key="tag" v-text="tag"></v-chip>
                         </v-row>
                     </v-card-text>
                 </template>

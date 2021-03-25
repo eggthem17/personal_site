@@ -31,7 +31,8 @@
                   label="게시판 아이디"
                   placeholder="주소에 사용 될 문자입니다"
                   outlined
-                  hide-details />
+                  hide-details
+                  color="info" />
               </v-card-text>
               <v-card-actions v-if="boardId">
                 <v-btn
@@ -75,7 +76,7 @@
                   <v-list-item-title>
                     작성자
                   </v-list-item-title>
-                  <v-list-item-subtitle>
+                  <v-list-item-subtitle class="mt-1">
                     <display-user :user="item.user"></display-user>
                   </v-list-item-subtitle>
                 </v-list-item-content>
@@ -111,24 +112,11 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider/>
-              <v-list-item
-                :to="`${$route.path}/${item.id}`">
-                <v-list-item-content>
-                  전체
-                </v-list-item-content>
-                <v-list-item-action>
-                  <v-btn icon>
-                    <v-icon>mdi-menu-right</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-              <v-divider/>
-              <template v-for="(category, i) in item.categories">
+              <v-list class="scroll">
                 <v-list-item
-                  :key="category"
-                  :to="`${$route.path}/${item.id}?category=${category}`">
+                :to="`${$route.path}/${item.id}`">
                   <v-list-item-content>
-                    {{category}}
+                    전체
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-btn icon>
@@ -136,8 +124,23 @@
                     </v-btn>
                   </v-list-item-action>
                 </v-list-item>
-                <v-divider :key="i" />
-              </template>
+                <v-divider/>
+                <template v-for="(category, i) in item.categories">
+                  <v-list-item
+                    :key="category"
+                    :to="`${$route.path}/${item.id}?category=${category}`">
+                    <v-list-item-content>
+                      {{category}}
+                    </v-list-item-content>
+                    <v-list-item-action>
+                      <v-btn icon>
+                        <v-icon>mdi-menu-right</v-icon>
+                      </v-btn>
+                    </v-list-item-action>
+                  </v-list-item>
+                  <v-divider :key="i" />
+                </template>
+              </v-list>
             </v-card>
           </v-col>
           <v-col cols="12" sm="6" md="4" lg="3" xl="2"

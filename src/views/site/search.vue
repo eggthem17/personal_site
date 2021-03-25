@@ -10,6 +10,7 @@
       dense
       @keypress.enter="find"
       clearable
+      class="mr-2"
     ></v-text-field>
   <!-- </v-sheet> -->
 </template>

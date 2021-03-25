@@ -20,16 +20,16 @@
         <v-card-text>
           <v-row>
             <v-col cols="12" sm="4">
-              <v-text-field v-model="form.category" outlined label="종류"></v-text-field>
+              <v-text-field color="info" v-model="form.category" outlined label="종류"></v-text-field>
             </v-col>
             <v-col cols="12" sm="4">
-              <v-select v-model="form.type" :items="types" outlined label="유형"></v-select>
+              <v-select color="info" v-model="form.type" :items="types" outlined label="양식"></v-select>
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="form.title" outlined label="제목"></v-text-field>
+              <v-text-field color="info" v-model="form.title" outlined label="제목"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-textarea v-model="form.description" outlined label="설명" hide-details=""></v-textarea>
+              <v-textarea color="info" v-model="form.description" outlined label="설명" hide-details=""></v-textarea>
             </v-col>
           </v-row>
         </v-card-text>
@@ -44,7 +44,7 @@
             </v-card-text>
             <v-card-actions>
               <div width="100">
-                <v-text-field v-model="category" append-icon="mdi-plus" label="등록" placeholder="eg) social" hide-details outlined dense @click:append="saveCategory" @keypress.enter="saveCategory"/>
+                <v-text-field class="ml-2 mb-2" color="info" v-model="category" append-icon="mdi-plus" label="등록" placeholder="eg) social" hide-details outlined dense @click:append="saveCategory" @keypress.enter="saveCategory"/>
               </div>
             </v-card-actions>
           </v-card>
@@ -60,7 +60,7 @@
             </v-card-text>
             <v-card-actions>
               <div width="100">
-                <v-text-field v-model="tag" append-icon="mdi-plus" label="등록" placeholder="eg) Vuetify" hide-details outlined dense @click:append="saveTag" @keypress.enter="saveTag" />
+                <v-text-field class="ml-2 mb-2" color="info" v-model="tag" append-icon="mdi-plus" label="등록" placeholder="eg) Vuetify" hide-details outlined dense @click:append="saveTag" @keypress.enter="saveTag" />
               </div>
             </v-card-actions>
           </v-card>

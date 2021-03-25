@@ -4,7 +4,11 @@
     <v-app-bar-nav-icon app color="info" @click="drawer = !drawer"/>
     <site-title :title="site.title"></site-title>
     <v-spacer/>
-    <site-search/>
+    <site-search v-if="searchbar === true" display: none>
+    </site-search>
+    <v-btn icon @click="searchbar = !searchbar">
+      <v-icon v-text="searchbar ? 'mdi-magnify-close' : 'mdi-magnify'"></v-icon>
+    </v-btn>
     <site-sign></site-sign>
     </v-app-bar>
     <v-navigation-drawer color="secondary" app v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" :width="$store.state.editable ? 380 : null">
@@ -28,6 +32,7 @@ export default {
   data () {
     return {
       drawer: false,
+      searchbar: false,
       site: {
         menu: [
           {
@@ -77,5 +82,12 @@ export default {
 }
 .tui-dark code, .tui-dark span {
   color: #323232 !important
+}
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+.scroll {
+  height: 215px;
+  overflow-y: auto;
 }
 </style>
