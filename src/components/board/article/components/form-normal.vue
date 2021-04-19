@@ -39,19 +39,47 @@
           <v-col cols="12">
             <v-text-field v-model="form.title" outlined label="제목" hide-details></v-text-field>
           </v-col>
-          <v-col cols="12">
+          <v-col v-if="!$vuetify.breakpoint.xs" cols="12">
+            <v-sheet class="white">
+              <editor
+              v-if="!exists"
+              :initialValue="form.content"
+              ref="editor" initialEditType="markdown"
+              :options="options"
+              height="900px"
+              class="tui-dark"
+              ></editor>
+              <template v-else>
+                <editor
+                  v-if="form.content"
+                  :initialValue="form.content"
+                  ref="editor" initialEditType="markdown"
+                  :options="options"
+                  height="900px"
+                  class="tui-dark"
+                  ></editor>
+                <v-container v-else>
+                  <v-row justify="center" align="center">
+                    <v-progress-circular indeterminate></v-progress-circular>
+                  </v-row>
+                </v-container>
+              </template>
+            </v-sheet>
+          </v-col>
+          <v-col v-else cols="12">
             <editor
               v-if="!exists"
               :initialValue="form.content"
-              ref="editor" initialEditType="wysiwyg" height="400px"
+              ref="editor" initialEditType="wysiwyg"
               :options="options"
               ></editor>
             <template v-else>
               <editor
                 v-if="form.content"
                 :initialValue="form.content"
-                ref="editor" initialEditType="wysiwyg" height="400px"
-                :options="options"></editor>
+                ref="editor" initialEditType="wysiwyg"
+                :options="options"
+                ></editor>
               <v-container v-else>
                 <v-row justify="center" align="center">
                   <v-progress-circular indeterminate></v-progress-circular>
